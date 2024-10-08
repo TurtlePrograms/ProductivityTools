@@ -1,7 +1,14 @@
 import subprocess
+import os
 
 
 def run(args):
+    # Get the directory where the script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Change the current working directory to the script's directory
+    os.chdir(script_dir)
+
     try:
         print(
             "Updating the project by pulling the latest changes from the repository..."
