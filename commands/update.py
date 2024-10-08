@@ -1,0 +1,16 @@
+import subprocess
+
+
+def run(args):
+    try:
+        print(
+            "Updating the project by pulling the latest changes from the repository..."
+        )
+        # Run the `git pull` command
+        result = subprocess.run(
+            ["git", "pull"], check=True, capture_output=True, text=True
+        )
+        print(result.stdout)
+        print("Update successful.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while updating: {e.stderr}")
