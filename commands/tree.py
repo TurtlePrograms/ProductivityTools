@@ -2,19 +2,8 @@ import os
 import argparse
 import time
 
-# THIS SCIPT IS 100% MADE BY COPILOT
-
-def parse_arguments():
-    parser = argparse.ArgumentParser(description='Generate and print directory tree.')
-    parser.add_argument('-p', "--path", type=str, default='.', help='The root directory to start the tree from (default: current directory)')
-    parser.add_argument('-o', '--output', type=str, default=None, help='Output file to write the tree to (optional)')
-    parser.add_argument('-f', '--map-files', action='store_true', help='Include files in the tree')
-    parser.add_argument('--no-print', action='store_true', help='Do not print the tree')
-    parser.add_argument('-r', '--recrusion-limit', type=int, default=None, help='The maximum depth of the tree')
-    parser.add_argument('-d', '--debug', action='store_true', help='Print debug information')
-    return parser.parse_args()
-
-args = parse_arguments()
+# THIS SCIPT IS 90% MADE BY COPILOT
+# AND 10% BY SOMEONE ELSE
 
 class treeMap:
     tree = {}
@@ -24,7 +13,7 @@ class treeMap:
     def __init__(self, path):
         self.path = path
 
-def map_tree(startpath: str, depth: int = 0) -> dict:
+def map_tree(args,startpath: str, depth: int = 0) -> dict:
     tree = {}
     if args.recrusion_limit and depth >= args.recrusion_limit:
         return None
@@ -33,7 +22,7 @@ def map_tree(startpath: str, depth: int = 0) -> dict:
         for item in items:
             path = os.path.join(startpath, item)
             if os.path.isdir(path):
-                tree[item] = map_tree(path, depth + 1)
+                tree[item] = map_tree(args,path, depth + 1)
             elif args.map_files:
                 tree[item] = None
         return tree
@@ -69,11 +58,19 @@ def write_file(tree: dict, file, prefix=''):
     file.write(treestr)
     
 
-if __name__ == "__main__":
+def run(command_args):
+    parser = argparse.ArgumentParser(description='Generate and print directory tree.')
+    parser.add_argument('-p', "--path", type=str, default='.', help='The root directory to start the tree from (default: current directory)')
+    parser.add_argument('-o', '--output', type=str, default=None, help='Output file to write the tree to (optional)')
+    parser.add_argument('-f', '--map-files', action='store_true', help='Include files in the tree')
+    parser.add_argument('--no-print', action='store_true', help='Do not print the tree')
+    parser.add_argument('-r', '--recrusion-limit', type=int, default=None, help='The maximum depth of the tree')
+    parser.add_argument('-d', '--debug', action='store_true', help='Print debug information')
+    args = parser.parse_args(command_args)
     stime = time.time()
     start_directory = args.path
     print(f"Generating tree for {start_directory}") if args.debug else None
-    tree_structure = map_tree(start_directory)
+    tree_structure = map_tree(args,start_directory)
     print("Tree generated") if args.debug else None
     eTime = time.time()
     print(f"Time taken: {round(eTime - stime)} seconds") if args.debug else None
