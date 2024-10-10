@@ -1,8 +1,14 @@
 import subprocess
+import argparse
 import os
 
 
 def run(args):
+    parser = argparse.ArgumentParser(
+        description="Updates the project by pulling the latest changes from the repository"
+    )
+    parsed_args = parser.parse_args(args)
+
     # Get the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
