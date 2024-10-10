@@ -1,2 +1,2 @@
 @echo off
-python "%~dp0\main.py" update
+python "%~dp0\main.py" update %*

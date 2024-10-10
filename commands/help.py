@@ -39,6 +39,10 @@ def run(args):
 
     parsed_args = parser.parse_args(args)
 
+    # Change the current working directory to the script's directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir)
+
     try:
         if parsed_args.detailed:
             print("Detailed help:")
