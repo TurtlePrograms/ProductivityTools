@@ -9,10 +9,11 @@ def confirm_commit():
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description="Quick Commit (gqc) with optional push"
+        description="Quick Commit tool with optional push"
     )
     parser.add_argument("message", help="Commit message for the git commit")
-    parser.add_argument("--push", action="store_true", help="Push after commit")
+    parser.add_argument("-p", "--push", action="store_true", help="Push after commit")
+    parser.add_argument("-y", "--no-confirm", action="store_true", help="Skip confirmation")
 
     parsed_args = parser.parse_args(args)
 
@@ -20,7 +21,8 @@ def run(args):
     subprocess.run(["git", "status", "-s"])
 
     # Ask for confirmation
-    if confirm_commit():
+    confirmation = confirm_commit() if not parsed_args.no_confirm else True
+    if confirmation:
         print(f"Committing with message: {parsed_args.message}")
         subprocess.run(["git", "commit", "-m", parsed_args.message])
 

@@ -17,11 +17,12 @@ def main():
 
         # Call the 'run' function of the module, passing all other args
         module.run(command_args)
-    except ModuleNotFoundError:
+    except ModuleNotFoundError as e:
         print(f"Error: Command '{command}' not found.")
-    except AttributeError:
+        print(f"Details: {e}")
+    except AttributeError as e:
         print(f"Error: Command '{command}' is missing a 'run' function.")
-
+        print(f"Details: {e}")
 
 if __name__ == "__main__":
     main()
