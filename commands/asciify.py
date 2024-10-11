@@ -8,17 +8,18 @@ localDir = os.path.dirname(os.path.abspath(__file__))
 characters = json.load(open(localDir + '\\ascii.json'))
 
 
-def asciify(text: list[str], size):
+def asciify(text: list[str], size: int):
     asciiFied = []
+    sizestr = str(size)
     for textRow in text:
         textRow = list(textRow)
         for row in range(size):
             line = []
             for char in textRow:
                 try:
-                    line.append(characters[char][row])
+                    line.append(characters[sizestr][char][row])
                 except KeyError:
-                    line.append(characters["NF"][row])
+                    line.append(characters[sizestr]["NF"][row])
             asciiFied.append(' '.join(line))
         asciiFied.append('')
     return '\n'.join(asciiFied)
@@ -53,5 +54,3 @@ def run(command_args):
     sTime = time.time()
     main(args)
     eTime = time.time()
-    if eTime >= 60:
-        print(f"Time taken: {round(eTime - sTime)} seconds")
