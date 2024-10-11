@@ -14,7 +14,7 @@ def run(args):
     parser.add_argument("message", help="Commit message for the git commit")
     parser.add_argument("-p", "--push", action="store_true", help="Push after commit")
     parser.add_argument("-y", "--no-confirm", action="store_true", help="Skip confirmation")
-
+    
     parsed_args = parser.parse_args(args)
 
     subprocess.run(["git", "add", "."])
