@@ -25,7 +25,25 @@ def getHelpFromBatList(batFiles):
 
 def getCommandDescriptions(batFiles):
     helpList = getHelpFromBatList(batFiles)
-    return [[help[0], help[1].split('\n')[2]] for help in helpList]
+
+    for i in range(len(helpList)):
+        help = helpList[i]
+        helpLines = help[1].split('\n')
+
+        descriptionStart = 0
+        for j in range(len(helpLines)):
+            if helpLines[j] == "":
+                descriptionStart = j + 1
+                break
+        descriptionEnd = 0
+        for j in range(descriptionStart, len(helpLines)):
+            if helpLines[j] == "":
+                descriptionEnd = j
+                break
+        
+        helpList[i][1] = " ".join(helpLines[descriptionStart:descriptionEnd])
+
+    return helpList
 
 def addIndentation(text:str, indentation:int):
     return "\n".join([f"{' '*indentation}{line}" for line in text.split("\n")])
