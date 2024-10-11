@@ -21,7 +21,8 @@ def run(args):
     subprocess.run(["git", "status", "-s"])
 
     # Ask for confirmation
-    if confirm_commit() or parsed_args.y:
+    confirmation = confirm_commit() if not parsed_args.y else True
+    if confirmation:
         print(f"Committing with message: {parsed_args.message}")
         subprocess.run(["git", "commit", "-m", parsed_args.message])
 
