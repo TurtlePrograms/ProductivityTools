@@ -49,21 +49,20 @@ def getCommandDescriptions(batFiles, useCache=True):
     helpList = getHelpFromBatList(batFiles, useCache)
 
     for i in range(len(helpList)):
-        help = helpList[i]
-        helpLines = help[1].split('\n')
+        helpLines = helpList[i][1].split('\n')
 
-        descriptionStart = 0
-        for j in range(len(helpLines)):
-            if helpLines[j] == "":
-                descriptionStart = j + 1
-                break
-        descriptionEnd = 0
-        for j in range(descriptionStart, len(helpLines)):
-            if helpLines[j] == "":
-                descriptionEnd = j
-                break
+        descriptionLines = []
+
+        foundStart = False
+        for line in helpLines:
+            if line == "":
+                if foundStart:
+                    break
+                foundStart = True
+            if foundStart:
+                descriptionLines.append(line)
         
-        helpList[i][1] = " ".join(helpLines[descriptionStart:descriptionEnd])
+        helpList[i][1] = " ".join(descriptionLines)
 
     return helpList
 
