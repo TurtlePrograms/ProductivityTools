@@ -1,7 +1,7 @@
 import subprocess
 import argparse
 import os
-
+import importlib
 
 def run(args):
     parser = argparse.ArgumentParser(
@@ -25,5 +25,10 @@ def run(args):
         )
         print(result.stdout)
         print("Update successful.")
+
+        # Re-import the help module to update the cache
+        print("command list:")
+        module = importlib.import_module("commands.help")
+        module.run(["--no-cache"])
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while updating: {e.stderr}")
