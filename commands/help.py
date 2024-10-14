@@ -71,7 +71,7 @@ def addIndentation(text:str, indentation:int):
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description="Help command"
+        description="Help command, lists all available commands and their descriptions",
     )
     parser.add_argument("-d", "--detailed", action="store_true", help="Show detailed help")
     parser.add_argument("--no-cache", action="store_true", help="Do not use cache / udpate cache")
