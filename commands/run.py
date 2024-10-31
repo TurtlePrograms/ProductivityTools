@@ -118,7 +118,7 @@ def runBrowser(task):
     browserTask = BrowserTask(task)
     for tab in browserTask.Tabs:
         command.append(tab)
-    # runCommand(command)
+    runCommand(command)
 
 
 def run(args):
