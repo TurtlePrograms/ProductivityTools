@@ -14,10 +14,10 @@ def getCache(depth = 0):
     except FileNotFoundError:
         if depth == 0:
             
-            default = {'profiles': {'pt': [{'type': 'browser', 'browser': 'msedge', 'tabs': ['https://www.google.com/']}, {'type': 'cmd', 'windows': [{'name': 'Productivity Tool', 'path': 'setPathHere', 'commands': ['code .']}],'path':'setPathHere'}]}}
+            default = {'profiles': {'default': [{'type': 'browser', 'browser': 'msedge', 'tabs': ['https://www.google.com/']}, {'type': 'cmd', 'windows': [{'name': 'Productivity Tool', 'path': 'setPathHere', 'commands': ['code .']}],'path':'setPathHere'}]}}
 
-            default['profiles']['pt'][1]['path'] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            default['profiles']['pt'][1]['windows'][0]['path']= os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            default['profiles']['default'][1]['path'] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            default['profiles']['default'][1]['windows'][0]['path']= os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             saveCache(default)
             return getCache(1)
         else:
@@ -125,9 +125,18 @@ def run(args):
     parser = argparse.ArgumentParser(
         description="Run Command, runs a set profile. a profile contains one or more programs to start"
     )
-    parser.add_argument("-p", "--profile",required=True, help="Show detailed help")
+    parser.add_argument("profile", help="Show detailed help", type=str, nargs='?', default="default")
+    parser.add_argument("-l", "--list", help="List all profiles", action="store_true")
     parsed_args = parser.parse_args(args)
     profile = loadProfile(parsed_args.profile)
+
+    if parsed_args.list:
+        profiles = getCache()
+        print("Available profiles:")
+        for profile in profiles["profiles"]:
+            print(f"  {profile}")
+        return
+    
     if profile.LoadedCorrectly == False:
         print("Failed to load profile")
         return profile.profile
@@ -136,5 +145,5 @@ def run(args):
             case "cmd":
                 runCMD(task)
             case "browser":
-                runBrowser(task)
+                runBrowser(task) 
     
