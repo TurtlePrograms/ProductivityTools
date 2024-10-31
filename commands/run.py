@@ -13,9 +13,11 @@ def getCache(depth = 0):
             return json.load(file)
     except FileNotFoundError:
         if depth == 0:
-            default = "{\n    \"profiles\": {\n        \"pt\": [\n            {\n                \"type\": \"browser\",\n                \"browser\": \"msedge\",\n                \"tabs\": [\n                    \"https://www.google.com/\",\n                ]\n            },\n            {\n                \"type\": \"cmd\",\n                \"windows\": [\n                    {\n                        \"name\": \"Productivity Tool\",\n                        \"path\": \""
-            default += os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            default += "\",\n                        \"commands\": [\n                            \"code .\"\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}"
+            
+            default = {'profiles': {'pt': [{'type': 'browser', 'browser': 'msedge', 'tabs': ['https://www.google.com/']}, {'type': 'cmd', 'windows': [{'name': 'Productivity Tool', 'path': 'setPathHere', 'commands': ['code .']}],'path':'setPathHere'}]}}
+
+            default['profiles']['pt'][1]['path'] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            default['profiles']['pt'][1]['windows'][0]['path']= os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             saveCache(default)
             return getCache(1)
         else:
@@ -106,7 +108,7 @@ def runCMD(task):
         command += f" nt -p \"Command Prompt\" --title \"{tab.Name}\" -d \"{tab.Path}\" cmd /k \""
         for com in tab.commands:
             command += f"{com} && "
-        command = command[:-3]
+        command = command[:-4]
         command += "\";"
     command = command[:-1]
     runCommand(command)
