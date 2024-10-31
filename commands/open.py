@@ -2,7 +2,7 @@ import argparse
 import os
 def run(args):
     parser = argparse.ArgumentParser(
-        description="Run Command, runs a set profile. a profile contains one or more programs to start"
+        description="Opens visual studio code on the productivity tools folder"
     )
     parsed_args = parser.parse_args(args)
     cwd = os.path.dirname(os.path.abspath(__file__))
