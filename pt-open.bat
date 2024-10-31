@@ -1,1 +1,2 @@
-code %~dp0
+@echo off
+python "%~dp0\main.py" open %*
