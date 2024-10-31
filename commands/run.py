@@ -7,12 +7,19 @@ import subprocess
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 
-def getCache():
+def getCache(depth = 0):
     try:
         with open(f"../pt-cache/profiles.json", "r") as file:
             return json.load(file)
     except FileNotFoundError:
-        return None
+        if depth == 0:
+            default = "{\n    \"profiles\": {\n        \"pt\": [\n            {\n                \"type\": \"browser\",\n                \"browser\": \"msedge\",\n                \"tabs\": [\n                    \"https://www.google.com/\",\n                ]\n            },\n            {\n                \"type\": \"cmd\",\n                \"windows\": [\n                    {\n                        \"name\": \"Productivity Tool\",\n                        \"path\": \""
+            default += os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            default += "\",\n                        \"commands\": [\n                            \"code .\"\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}"
+            saveCache(default)
+            return getCache(1)
+        else:
+            print("make a profiles file")
 
 def saveCache(cache):
     if not os.path.exists(f"../pt-cache"):
