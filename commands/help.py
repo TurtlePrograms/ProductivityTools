@@ -80,6 +80,13 @@ def run(args):
     parsed_args = parser.parse_args(args)
 
     try:
+        if parsed_args.command:
+            if os.path.exists(f"../{parsed_args.command}.bat"):
+                print(getCommandHelp(f"{parsed_args.command}.bat"))
+                return
+            else:
+                print(f"Command '{parsed_args.command}' does not exist")
+                return
         if parsed_args.detailed:
             print("Detailed help:")
             for help in getHelpFromBatList(listBatFiles() if not parsed_args.command else [f"{parsed_args.command}.bat"], not parsed_args.no_cache):
