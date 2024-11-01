@@ -136,7 +136,14 @@ def runProfile(profileName):
                 runBrowser(task) 
             case "alias":
                 runAlias(task)
-    
+
+def getTypeInfo(step):
+    Steptype = step["type"]
+    if (Steptype == "alias"):
+        Steptype += "->"
+        Steptype += step["profile"]
+    return Steptype
+
 def run(args):
     parser = argparse.ArgumentParser(
         description="Run Command, runs a set profile. a profile contains one or more programs to start"
@@ -149,7 +156,15 @@ def run(args):
         profiles = getCache()
         print("Available profiles:")
         for profile in profiles["profiles"]:
-            print(f"  {profile} - {profiles["profiles"][profile][0]["type"]}")
+            types = []
+            if (type(profiles["profiles"][profile]) == type({"test":"test"})):
+                types.append(getTypeInfo(profiles["profiles"][profile]))
+            elif (type(profiles["profiles"][profile]) == type([])):
+                for step in profiles["profiles"][profile]:
+                    types.append(getTypeInfo(step))
+            output = f"  {profile} - "
+            output += ":".join(types)
+            print(output)
         return
     
     runProfile(parsed_args.profile)
