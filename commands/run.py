@@ -14,7 +14,7 @@ def getCache(depth = 0):
     except FileNotFoundError:
         if depth == 0:
             
-            default = {'profiles': {'default': [{'type': 'browser', 'browser': 'msedge', 'tabs': ['https://www.google.com/']}, {'type': 'cmd', 'windows': [{'name': 'Productivity Tool', 'path': 'setPathHere', 'commands': ['code .']}],'path':'setPathHere'}]}}
+            default = {'profiles': {'default': [{'type': 'browser', 'browser': 'msedge', 'tabs': ['https://www.google.com/']}, {'type': 'cmd', 'windows': [{'name': 'Productivity Tool', 'path': 'setPathHere', 'commands': ['code .']}],'path':'setPathHere'}],"example": {"type": "alias","profile": "default"}}}
 
             default['profiles']['default'][1]['path'] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             default['profiles']['default'][1]['windows'][0]['path']= os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -120,23 +120,11 @@ def runBrowser(task):
         command.append(tab)
     runCommand(command)
 
+def runAlias(task):
+    runProfile(task["profile"])
 
-def run(args):
-    parser = argparse.ArgumentParser(
-        description="Run Command, runs a set profile. a profile contains one or more programs to start"
-    )
-    parser.add_argument("profile", help="Show detailed help", type=str, nargs='?', default="default")
-    parser.add_argument("-l", "--list", help="List all profiles", action="store_true")
-    parsed_args = parser.parse_args(args)
-    profile = loadProfile(parsed_args.profile)
-
-    if parsed_args.list:
-        profiles = getCache()
-        print("Available profiles:")
-        for profile in profiles["profiles"]:
-            print(f"  {profile}")
-        return
-    
+def runProfile(profileName):
+    profile = loadProfile(profileName)
     if profile.LoadedCorrectly == False:
         print("Failed to load profile")
         return profile.profile
@@ -146,4 +134,22 @@ def run(args):
                 runCMD(task)
             case "browser":
                 runBrowser(task) 
+            case "alias":
+                runAlias(task)
     
+def run(args):
+    parser = argparse.ArgumentParser(
+        description="Run Command, runs a set profile. a profile contains one or more programs to start"
+    )
+    parser.add_argument("profile", help="Show detailed help", type=str, nargs='?', default="default")
+    parser.add_argument("-l", "--list", help="List all profiles", action="store_true")
+    parsed_args = parser.parse_args(args)
+    
+    if parsed_args.list:
+        profiles = getCache()
+        print("Available profiles:")
+        for profile in profiles["profiles"]:
+            print(f"  {profile} - {profiles["profiles"][profile][0]["type"]}")
+        return
+    
+    runProfile(parsed_args.profile)
