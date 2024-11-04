@@ -1,6 +1,9 @@
 import subprocess
 import argparse
 import datetime
+import os
+
+script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def confirm_commit():
     confirmation = input("Do you want to commit these changes? [y/n]: ").strip().lower()
@@ -33,4 +36,4 @@ def run(args):
     else:
         print("Aborting commit.")
     
-    subprocess.run(["pt-note",datetime.date.today()+"-commits "+str(parsed_args.message)+" -a"])
+    subprocess.run(["python",f"{script_dir}/main.py","note",str(datetime.date.today())+"-commits ",parsed_args.message,"-a"])

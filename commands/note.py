@@ -53,7 +53,7 @@ def run(raw_args):
     parser.add_argument("-d", "--delete", help="delete a note", type=str)
     parser.add_argument("-a", "--add", help="add a note", action="store_true")
     parser.add_argument("note", nargs="*", help="note name")
-    args = parser.parse_args(raw_args)
+    args = parser.parse_args(raw_args) 
 
     if len(args.note) == 1 and not args.list and not args.delete:
         listNotes(args.note[0])
