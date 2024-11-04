@@ -1,6 +1,6 @@
 import subprocess
 import argparse
-
+import datetime
 
 def confirm_commit():
     confirmation = input("Do you want to commit these changes? [y/n]: ").strip().lower()
@@ -32,3 +32,5 @@ def run(args):
             subprocess.run(["git", "push"])
     else:
         print("Aborting commit.")
+    
+    subprocess.run(["pt-note",datetime.date.today()+"-commits "+str(parsed_args.message)+" -a"])

@@ -79,7 +79,12 @@ Options:
 
 ### pt-run
 
-Runs a preset profile with a list of programs to start.
+Runs a preset profile with a list of programs to start.  
+running `pt-run` will start the profile `default`, if the profiles.json file does not exist one will be created with an example setup  
+the example setup includes a `default` profile, wich run a template called Browser, and opens cmd in this directory then opens vs code  
+the template opens a browser (set via params in the profile) and opens a new tab on `google.com`  
+the template also includes an example `alias`, called `example` this runs the profile `default`
+
 
 Usage: ``` pt-run [-h] [-l] [profile] ```
 
@@ -88,6 +93,7 @@ Options:
     profile : Profile to execute.
     -h, --help : Show help message.
     -l, --list : List all profiles.
+
 
 ### pt-open
 
@@ -132,7 +138,7 @@ pt-run default   # Run the 'default' profile
 
 Profiles are defined under "profiles" in a JSON file, with each profile containing tasks based on its "type". Here’s an example profile configuration:
 
-``` { "profiles": { "default": [ { "type": "browser", "browser": "msedge", "tabs": [ "https://www.google.com/" ] }, { "type": "cmd", "windows": [ { "name": "Productivity Tool", "path": "C:\ProductivityTools", "commands": [ "code ." ] } ], "path": "C:\ProductivityTools" } ] } } ```
+```{"templates": {"Browser": {"type": "browser","browser": "$browser","tabs": ["https://www.google.com/"]}},"profiles": {"default": [{"type": "template","name": "Browser","parameters": {"browser": "msedge"}},{"type": "cmd","windows": [{"name": "Productivity Tool","path": "C:\\ProductivityTools","commands": ["code ."]}],"path": "C:\\ProductivityTools"}],"example": {"type": "alias","profile": "default"}}}} ```
 Field Descriptions
 Profile Types
 
@@ -141,6 +147,7 @@ Each profile item requires a "type" field, which specifies what kind of task it 
     browser: Opens a browser with specified tabs.
     cmd: Opens command windows in specified directories, running defined commands.
     alias: References an existing profile to reuse its configuration.
+    template: references a template and holds any parameters it should give the template
 
 ### Browser Type
 
@@ -170,6 +177,9 @@ The "alias" type references another profile by name, allowing you to run configu
 Example: ``` { "type": "alias", "profile": "default" } ```
 
 In this example, "test" is an alias for "default". Running pt-run test will execute the "default" profile.
+
+### Template Type
+The "template" type references a template by name, allowing you to create reusable snippets. a template can be any type
 
 ### Tips for Profile Management
 

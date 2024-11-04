@@ -73,7 +73,7 @@ def getCache() -> Tuple[bool, str]:
         with open(f"../pt-cache/profiles.json", "r") as file:
             return (True,json.load(file))
     except FileNotFoundError:
-        default = {'profiles': {'default': [{'type': 'browser', 'browser': 'msedge', 'tabs': ['https://www.google.com/']}, {'type': 'cmd', 'windows': [{'name': 'Productivity Tool', 'path': 'setPathHere', 'commands': ['code .']}],'path':'setPathHere'}],"example": {"type": "alias","profile": "default"}}}
+        default = {"templates": {"Browser": {"type": "browser","browser": "$browser","tabs": ["https://www.google.com/"]}},"profiles": {"default": [{"type": "template","name": "Browser","parameters": {"browser": "msedge"}},{"type": "cmd","windows": [{"name": "Productivity Tool","path": "C:\\ProductivityTools","commands": ["code ."]}],"path": "C:\\ProductivityTools"}],"example": {"type": "alias","profile": "default"}}}
 
         default['profiles']['default'][1]['path'] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         default['profiles']['default'][1]['windows'][0]['path']= os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -197,13 +197,15 @@ def runProfile(profileName):
     if data.failed == True:
         print("Failed to load profile")
         return
+    print(data.profile.profile)
     runTasks(data.profile,data)
     
 def runTasks(profile:Profile,data:Data):
+    print(profile.profile)
     for id, task in enumerate(profile.profile):
         if (task["type"] == "template"):
             runTemplate(task,data,id)
-    for id, task in enumerate(profile.profile):
+    for id, task in enumerate(profile.profile ):
         match task["type"]:
             case "cmd":
                 runCMD(task)
@@ -245,5 +247,3 @@ def run(args):
         else:
             print(profiles)
     runProfile(parsed_args.profile)
-
-run(["my-project-setup"])
