@@ -16,7 +16,7 @@ class treeMap:
 def map_tree(args,startpath: str, depth: int = 0) -> dict:
     tree = {}
     if args.recrusion_limit and depth >= args.recrusion_limit:
-        return None
+        return tree
     try:
         items = os.listdir(startpath)
         for item in items:
@@ -30,7 +30,7 @@ def map_tree(args,startpath: str, depth: int = 0) -> dict:
                 tree[item] = None
         return tree
     except PermissionError:
-        return None
+        return tree
 
 def tree_to_list(tree: dict, prefix='') -> list:
     tree_list = []
