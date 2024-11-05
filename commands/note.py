@@ -37,8 +37,9 @@ def listNotes(noteName: str = None):
     cache = getCache()
     if cache:
         if noteName:
-            print(f"Note: {noteName}")
-            print(addIndentation(str(cache[noteName]), 2))
+            print("")
+            print(addIndentation(str(cache[noteName]), 0))
+            print("")
         else:
             for noteName, note in cache.items():
                 print(f"Note: {noteName}")
