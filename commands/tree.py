@@ -22,7 +22,10 @@ def map_tree(args,startpath: str, depth: int = 0) -> dict:
         for item in items:
             path = os.path.join(startpath, item)
             if os.path.isdir(path):
-                tree[item] = map_tree(args,path, depth + 1)
+                if path.split("\\")[-1].startswith("."):
+                    tree[item] = {}
+                else:
+                    tree[item] = map_tree(args,path, depth + 1)
             elif args.map_files:
                 tree[item] = None
         return tree
