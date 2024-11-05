@@ -19,15 +19,15 @@ def saveCache(cache: dict):
         json.dump(cache, file)
 
 def addNote(noteName: str, note: str, replace: bool = False):
-    cache = getCache()
+    cache = getCache() or {}
     name = noteName if noteName else "default"
-    if cache:
-        if replace and name in cache:
+    if name in cache:
+        if replace:
             cache[name] = note
         else:
             cache[name] += f"\\n{note}"
     else:
-        cache = {name: note}
+        cache[name] = note
     saveCache(cache)
 
 def addIndentation(text:str, indentation:int):
