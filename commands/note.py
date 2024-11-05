@@ -18,14 +18,14 @@ def saveCache(cache: dict):
     with open(f"../pt-cache/notecache.json", "w") as file:
         json.dump(cache, file)
 
-def addNote(noteName: str, note: str, append: bool = False):
+def addNote(noteName: str, note: str, replace: bool = False):
     cache = getCache()
     name = noteName if noteName else "default"
     if cache:
-        if append and name in cache:
-            cache[name] += f"\\n{note}"
-        else:
+        if replace and name in cache:
             cache[name] = note
+        else:
+            cache[name] += f"\\n{note}"
     else:
         cache = {name: note}
     saveCache(cache)
@@ -51,14 +51,14 @@ def run(raw_args):
     )
     parser.add_argument("-l", "--list", help="list all notes", action="store_true")
     parser.add_argument("-d", "--delete", help="delete a note", type=str)
-    parser.add_argument("-a", "--add", help="add a note", action="store_true")
+    parser.add_argument("-r", "--replace", help="replace note", action="store_true")
     parser.add_argument("note", nargs="*", help="note name")
     args = parser.parse_args(raw_args) 
 
     if len(args.note) == 1 and not args.list and not args.delete:
         listNotes(args.note[0])
     elif args.note:
-        addNote(args.note[0], "\\n".join(args.note[1:]), append=args.add)
+        addNote(args.note[0], "\\n".join(args.note[1:]), replace=args.replace)
     elif args.list:
         listNotes()
     elif args.delete:

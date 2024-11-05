@@ -30,7 +30,7 @@ def run(args):
     if confirmation:
         print(f"Committing with message: {parsed_args.message}")
         subprocess.run(["git", "commit", "-m", parsed_args.message])
-        subprocess.run(["python",f"{script_dir}/main.py","note",str(datetime.date.today())+"-commits",cwd+" : "+parsed_args.message,"-a"])
+        subprocess.run(["python",f"{script_dir}/main.py","note",str(datetime.date.today())+"-commits",cwd+" : "+parsed_args.message])
         # Push only if --push flag is provided
         if parsed_args.push:
             print("Pushing to remote repository...")
