@@ -35,7 +35,7 @@ def addIndentation(text:str, indentation:int):
 
 def listNotes(noteName: str = None):
     cache = getCache()
-    if cache:
+    if cache and noteName in cache:
         if noteName:
             print("")
             print(addIndentation(str(cache[noteName]), 0))
@@ -45,6 +45,8 @@ def listNotes(noteName: str = None):
                 print(f"Note: {noteName}")
                 print(addIndentation(str(note), 2))
                 print()
+    else:
+        print(f"No notes found for \"{noteName}\"")
 
 def run(raw_args):
     parser = argparse.ArgumentParser(
