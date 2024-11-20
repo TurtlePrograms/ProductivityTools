@@ -28,60 +28,70 @@ def getPaths(args, startpath: str, depth: int = 0):
                 
     return paths
 
-def pull(paths, summary_only=False):
+def pull(paths):
+    import os
+    import subprocess
+    from datetime import datetime
+    import sys
+
     success_count = 0
     failure_count = 0
-    
-    if not summary_only:
-        print("========== Git Pull Process Started ==========")
-    
-    for path in paths:
-        if not summary_only:
-            print(f"\n--- Pulling Repository at: {path} ---")
-            print("Start Time:", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        
+    failed = []
+
+    start_time = datetime.now()
+
+    total_repos = len(paths)
+    bar_length = 40  # Length of the progress bar
+
+    for i, path in enumerate(paths, start=1):
         try:
             result = subprocess.run(["git", "pull"], cwd=path, capture_output=True, text=True)
-            
+            folder_name = os.path.basename(path)
+
             if result.returncode == 0:
                 success_count += 1
-                if not summary_only:
-                    print("\n[Success] Pull completed successfully.")
-                    print("Output:\n" + "-"*40)
-                    print(result.stdout.strip())
-                    print("-"*40 + "\n")
             else:
                 failure_count += 1
-                if not summary_only:
-                    print("\n[Error] Pull failed.")
-                    print("Error Details:\n" + "-"*40)
-                    print(result.stderr.strip())
-                    print("-"*40 + "\n")
-                
+                failed.append([folder_name, result.stderr.strip()])
         except Exception as e:
             failure_count += 1
-            if not summary_only:
-                print("\n[Exception] Failed to pull in:", path)
-                print("Exception Details:\n" + "-"*40)
-                print(str(e))
-                print("-"*40 + "\n")
-        
-        if not summary_only:
-            print("End Time:", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            folder_name = os.path.basename(path)
+            failed.append([folder_name, str(e).strip()])
+
+        # Update progress bar
+        progress = i / total_repos
+        completed = int(bar_length * progress)
+        remaining = bar_length - completed
+        bar = f"[{'#' * completed}{'.' * remaining}]"
+        sys.stdout.write(f"\r{bar} {i}/{total_repos} repositories processed")
+        sys.stdout.flush()
+
+    end_time = datetime.now()
+    elapsed_time = end_time - start_time
+
+    # Move to the next line after progress bar
+    print("\n\n========== Pull Summary ==========")
+    print(f"Start Time: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"End Time:   {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Duration:   {elapsed_time}")
+    print(f"Total Repositories: {len(paths)}")
+    print(f"Successful Pulls:   {success_count}")
+    print(f"Failed Pulls:       {failure_count}")
+
+    if failed:
+        print("\n--- Failed Repositories ---")
+        for folder_name, error in failed:
+            print(f"- {folder_name}: {error}")
     
-    # Summary
-    print("\n========== Summary ==========")
-    print(f"Total Repositories Pulled: {len(paths)}")
-    print(f"Successful Pulls: {success_count}")
-    print(f"Failed Pulls: {failure_count}")
     print("========== End of Process ==========")
+
+
 
 def run(command_args):
     parser = argparse.ArgumentParser(description='Git pull operation on multiple repositories.')
     parser.add_argument('-p', "--path", type=str, default='.', help='The root directory to start the operation from (default: current directory)')
     parser.add_argument('-r', '--recrusion-limit', type=int, default=None, help='The maximum depth to search for repositories')
-    parser.add_argument('-s', '--summary-only', action='store_true', help='If set, only prints the summary of the pull operations')
     
     args = parser.parse_args(command_args)
     paths = getPaths(args, args.path)
-    pull(paths, summary_only=args.summary_only)
+    pull(paths)
