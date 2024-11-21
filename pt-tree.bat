@@ -1,2 +1,2 @@
 @echo off
-python "%~dp0\main.py" tree %*
+"%~dp0\venv\Scripts\python.exe"  "%~dp0\main.py" tree %*

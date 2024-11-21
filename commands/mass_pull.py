@@ -2,6 +2,8 @@ import os
 import argparse
 import subprocess
 from datetime import datetime
+import sys
+from tqdm import tqdm  # Import the tqdm library
 
 def getPaths(args, startpath: str, depth: int = 0):
     startpath = os.path.abspath(startpath)
@@ -29,21 +31,14 @@ def getPaths(args, startpath: str, depth: int = 0):
     return paths
 
 def pull(paths):
-    import os
-    import subprocess
-    from datetime import datetime
-    import sys
-
     success_count = 0
     failure_count = 0
     failed = []
 
     start_time = datetime.now()
 
-    total_repos = len(paths)
-    bar_length = 40  # Length of the progress bar
-
-    for i, path in enumerate(paths, start=1):
+    # Using tqdm to display a progress bar
+    for path in tqdm(paths, desc="Pulling repositories", unit="repo"):
         try:
             result = subprocess.run(["git", "pull"], cwd=path, capture_output=True, text=True)
             folder_name = os.path.basename(path)
@@ -58,19 +53,11 @@ def pull(paths):
             folder_name = os.path.basename(path)
             failed.append([folder_name, str(e).strip()])
 
-        # Update progress bar
-        progress = i / total_repos
-        completed = int(bar_length * progress)
-        remaining = bar_length - completed
-        bar = f"[{'#' * completed}{'.' * remaining}]"
-        sys.stdout.write(f"\r{bar} {i}/{total_repos} repositories processed")
-        sys.stdout.flush()
-
     end_time = datetime.now()
     elapsed_time = end_time - start_time
 
-    # Move to the next line after progress bar
-    print("\n\n========== Pull Summary ==========")
+    # Summary Output
+    print("\n========== Pull Summary ==========")
     print(f"Start Time: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"End Time:   {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"Duration:   {elapsed_time}")
@@ -84,6 +71,7 @@ def pull(paths):
             print(f"- {folder_name}: {error}")
     
     print("========== End of Process ==========")
+
 
 
 

@@ -5,6 +5,12 @@ import time
 # THIS SCIPT IS 90% MADE BY COPILOT
 # AND 10% BY SOMEONE ELSE
 
+folderIgnore = [
+    "__pycache__",
+    "node_modules",
+    "venv"
+]
+
 class treeMap:
     tree = {}
     path = ''
@@ -22,7 +28,7 @@ def map_tree(args,startpath: str, depth: int = 0) -> dict:
         for item in items:
             path = os.path.join(startpath, item)
             if os.path.isdir(path):
-                if path.split("\\")[-1].startswith("."):
+                if path.split("\\")[-1].startswith(".") or path.split("\\")[-1] in folderIgnore:
                     tree[item] = {}
                 else:
                     tree[item] = map_tree(args,path, depth + 1)
