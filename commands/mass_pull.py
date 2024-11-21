@@ -6,11 +6,15 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 from colorama import Fore, Style
 
-def getPathsHelper(path, paths):
-    """Helper function to find all repositories in a directory."""
+def getPathsHelper(path, paths, depth, recursion_limit):
+    """Helper function to find all repositories in a directory with depth limit."""
     try:
         items = os.listdir(path)
     except PermissionError:
+        return
+
+    # If the current depth exceeds the recursion limit, stop exploring further
+    if recursion_limit is not None and depth >= recursion_limit:
         return
 
     for item in items:
@@ -19,17 +23,18 @@ def getPathsHelper(path, paths):
             if os.path.exists(os.path.join(subpath, ".git")):
                 paths.append(subpath)
             else:
-                getPathsHelper(subpath, paths)
+                # Recurse deeper into subdirectories
+                getPathsHelper(subpath, paths, depth + 1, recursion_limit)
 
-def getPaths(args, startpath: str, depth: int = 0,max_workers:int=4):
-    """Concurrent version to find all repository paths."""
+def getPaths(args, startpath: str, max_workers: int = 4):
+    """Concurrent version to find all repository paths with respect to recursion depth."""
     startpath = os.path.abspath(startpath)
     paths = []
 
     # Worker pool to perform path discovery concurrently
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        # Queue up path discovery tasks
-        futures = [executor.submit(getPathsHelper, os.path.join(startpath, item), paths) for item in os.listdir(startpath)]
+        # Queue up path discovery tasks for each subdirectory in the startpath
+        futures = [executor.submit(getPathsHelper, os.path.join(startpath, item), paths, 1, args.recrusion_limit) for item in os.listdir(startpath)]
         
         # Wait for all tasks to complete
         for future in as_completed(futures):
@@ -97,5 +102,6 @@ def run(command_args):
     parser.add_argument('-w', '--workers', type=int, default=4, help='Number of concurrent workers for pulling repositories (default: 4)')
     
     args = parser.parse_args(command_args)
-    paths = getPaths(args, args.path,args.workers)
+    
+    paths = getPaths(args, args.path, args.workers)
     pull(paths, max_workers=args.workers)
