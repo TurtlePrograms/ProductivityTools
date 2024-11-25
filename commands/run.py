@@ -164,11 +164,7 @@ def runTemplate(task, data:Data,id):
     parameters = task['parameters']
     
     filled_commands = fill_parameters(commands, parameters)
-    print(data.profile.profile[id])
     data.profile.profile[id] = filled_commands
-    print(data.profile.profile[id])
-    print()
-    # runTasks(Profile([filled_commands]),data)
 
 def fill_parameters(commands, parameters):
     if isinstance(commands, dict):
@@ -197,11 +193,9 @@ def runProfile(profileName):
     if data.failed == True:
         print("Failed to load profile")
         return
-    print(data.profile.profile)
     runTasks(data.profile,data)
     
 def runTasks(profile:Profile,data:Data):
-    print(profile.profile)
     for id, task in enumerate(profile.profile):
         if (task["type"] == "template"):
             runTemplate(task,data,id)
