@@ -41,15 +41,10 @@ def run(args):
 
         # Run requirements generation
         try:
-            module = importlib.import_module("generate_requirements","generate_requirements")
+            module = importlib.import_module("commands.generate_requirements")
             module.run(["./"])
         except:
-            try:
-                module = importlib.import_module("commands.generate_requirements")
-                module.run(["./"])
-            except Exception as e:
-                raise e
-            
+            print("failed to import reuquirements")
 
         # Install the requirements
         print("Installing dependencies from requirements.txt...")
@@ -62,14 +57,10 @@ def run(args):
         # Re-import the help module to update the cache
         print("Refreshing the command list...")
         try:
-            module = importlib.import_module("help","help")
+            module = importlib.import_module("commands.help")
             module.run(["--no-cache"])
         except:
-            try:
-                module = importlib.import_module("commands.help")
-                module.run(["--no-cache"])
-            except Exception as e:
-                raise e
+            print("failed to import help")
 
     except subprocess.CalledProcessError as e:
         print(f"Error occurred: {e.stderr}")
