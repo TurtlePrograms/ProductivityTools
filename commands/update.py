@@ -13,7 +13,6 @@ def run(args):
 
     # Get the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
-
     # Change the current working directory to the script's directory
     os.chdir(script_dir)
 
@@ -41,8 +40,16 @@ def run(args):
         print("Update successful.")
 
         # Run requirements generation
-        module = importlib.import_module("commands.generate_requirements")
-        module.run(["./"])
+        try:
+            module = importlib.import_module("generate_requirements","generate_requirements")
+            module.run(["./"])
+        except:
+            try:
+                module = importlib.import_module("commands.generate_requirements")
+                module.run(["./"])
+            except Exception as e:
+                raise e
+            
 
         # Install the requirements
         print("Installing dependencies from requirements.txt...")
@@ -54,8 +61,15 @@ def run(args):
 
         # Re-import the help module to update the cache
         print("Refreshing the command list...")
-        module = importlib.import_module("commands.help")
-        module.run(["--no-cache"])
+        try:
+            module = importlib.import_module("help","help")
+            module.run(["--no-cache"])
+        except:
+            try:
+                module = importlib.import_module("commands.help")
+                module.run(["--no-cache"])
+            except Exception as e:
+                raise e
 
     except subprocess.CalledProcessError as e:
         print(f"Error occurred: {e.stderr}")
