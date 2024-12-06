@@ -2,6 +2,7 @@ import os
 import argparse
 import subprocess
 import json
+from colorama import Fore, Style
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
@@ -90,12 +91,12 @@ def run(args):
         if parsed_args.detailed:
             print("Detailed help:")
             for help in getHelpFromBatList(listBatFiles() if not parsed_args.command else [f"{parsed_args.command}.bat"], not parsed_args.no_cache):
-                print(f"{help[0]}\n{addIndentation(help[1], 2)}")
+                print(f"{Fore.CYAN}{help[0]}{Fore.RESET}\n{addIndentation(help[1], 2)}")
         else:
             print("Help:")
             barPos = 15
             for help in getCommandDescriptions(listBatFiles() if not parsed_args.command else [f"{parsed_args.command}.bat"], not parsed_args.no_cache):
-                print(f"{help[0]}{' ' * max(barPos - len(help[0]), 1)}|{help[1]}")
+                print(f"{Fore.CYAN}{help[0]}{Fore.RESET}{' ' * max(barPos - len(help[0]), 1)}|{help[1]}")
     except Exception as e:
         print(f"An error occurred: {e}")
         

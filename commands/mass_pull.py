@@ -6,6 +6,23 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 from colorama import Fore, Style
 
+asciiTag = f"""{Fore.CYAN}
+ _      _       _       ______   ______
+| \    / |     / \     /  ____| /  ____|
+|  \  /  |    / _ \    | |____  | |____
+| \ \/ / |   / /_\ \   \____  \ \____  \\
+| |\__/| |  / _____ \   ____| |  ____| |
+|_|    |_| /_/     \_\ |______/ |______/
+    ______   _    _   _        _
+   |  __  \ | |  | | | |      | |
+   | |__| | | |  | | | |      | |
+   |  ____/ | |  | | | |      | |
+   | |      | |__| | | |____  | |____
+   |_|      \______| |______| |______|
+
+{Fore.RESET} """
+tagWidth = 40
+
 def getPathsHelper(path, paths, depth, recursion_limit):
     """Helper function to find all repositories in a directory with depth limit."""
     try:
@@ -102,6 +119,9 @@ def run(command_args):
     parser.add_argument('-w', '--workers', type=int, default=4, help='Number of concurrent workers for pulling repositories (default: 4)')
     
     args = parser.parse_args(command_args)
+
+    if os.get_terminal_size().columns > tagWidth:
+        print("\n".join([(" " * round((os.get_terminal_size().columns / 2) - (tagWidth / 2))) + line for line in asciiTag.split("\n")]))
     
     paths = getPaths(args, args.path, args.workers)
     pull(paths, max_workers=args.workers)
