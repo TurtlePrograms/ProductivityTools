@@ -3,10 +3,10 @@ import argparse
 import subprocess
 
 valid_choices = {
-    "platform": r"C:\Users\DavidvanHoek\source\Twintos\Platform",
-    "p": r"C:\Users\DavidvanHoek\source\Twintos\Platform",
-    "platform_provisioning": r"C:\Users\DavidvanHoek\source\Twintos\Platform_Provisioning",
-    "pp": r"C:\Users\DavidvanHoek\source\Twintos\Platform_Provisioning"
+    "platform": r"C:\Users\DavidvanHoek\source\repos\twintos-platform",
+    "p": r"C:\Users\DavidvanHoek\source\repos\twintos-platform",
+    "platform_provisioning": r"C:\Users\DavidvanHoek\source\repos\twintos-platform-provisioning",
+    "pp": r"C:\Users\DavidvanHoek\source\repos\twintos-platform-provisioning"
 }
 
 def clone(url, path):

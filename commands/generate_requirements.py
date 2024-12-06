@@ -54,12 +54,14 @@ def run(args):
     for root, _, files in os.walk(folder):
         for file in files:
             if file.endswith(".py"):
-                file_path = os.path.join(root, file)
-                print(f"Analyzing {file_path}...")
-                imports = parse_imports(file_path)
-                third_party = filter_third_party(imports)
-                all_third_party.update(third_party)
-
+                try:
+                    file_path = os.path.join(root, file)
+                    print(f"Analyzing {file_path}...")
+                    imports = parse_imports(file_path)
+                    third_party = filter_third_party(imports)
+                    all_third_party.update(third_party)
+                except Exception as e:
+                    print(e)
     # Write to requirements.txt
     requirements_path = os.path.join(folder, "requirements.txt")
     try:
