@@ -27,10 +27,10 @@ def searchFolder(path, pattern, include_folders, debug, depth=0, recursion_limit
     return matches
 
 def run(command_args):
-    parser = argparse.ArgumentParser(description='Generate and print directory tree.')
-    parser.add_argument('-p', "--path", type=str, default='.', help='The root directory to start the tree from (default: current directory)')
+    parser = argparse.ArgumentParser(description='Recursively counts files matching a pattern in a directory')
+    parser.add_argument('-p', "--path", type=str, default='.', help='The directory to search from (default: current directory)')
     parser.add_argument('-r', '--recrusion-limit', type=int, default=None, help='The maximum recursion depth')
-    parser.add_argument('-f', '--include-folders', action='store_true', help='Include folders in the tree')
+    parser.add_argument('-f', '--include-folders', action='store_true', help='Include folders in the count')
     parser.add_argument('-d', '--debug', action='store_true', help='Print debug information')
     parser.add_argument('pattern', nargs='?', default=None, help='Pattern to match files and folders')
     args = parser.parse_args(command_args)
