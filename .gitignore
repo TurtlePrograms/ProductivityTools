@@ -169,3 +169,4 @@ pt-cache/
 .vscode
 
 */requirements.txt
+tmpold/*
