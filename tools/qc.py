@@ -1,6 +1,5 @@
 import argparse
-import tools.core as core
-
+from tools.core import GitClient, Logger, LogLevel, Confirm
 
 def run(args):
     parser = argparse.ArgumentParser(
@@ -12,22 +11,22 @@ def run(args):
     
     parsed_args = parser.parse_args(args)
     try:
-        core.Logger.log("Staging changes...",core.LogLevel.INFO)
-        core.GitClient.Add()
+        Logger.log("Staging changes...",LogLevel.INFO)
+        GitClient.Add()
 
-        core.Logger.log("Checking status of staged changes...",core.LogLevel.INFO)
-        core.GitClient.Status()
-        confirmation = core.Confirm.confirm("Do you want to commit the changes?","y","n") if not parsed_args.no_confirm else True
+        Logger.log("Checking status of staged changes...",LogLevel.INFO)
+        GitClient.Status()
+        confirmation = Confirm.confirm("Do you want to commit the changes?","y","n") if not parsed_args.no_confirm else True
 
         if confirmation:
-            core.Logger.log(f"Committing with message: '{parsed_args.message}'",core.LogLevel.INFO)
-            core.GitClient.Commit(parsed_args.message)
+            Logger.log(f"Committing with message: '{parsed_args.message}'",LogLevel.INFO)
+            GitClient.Commit(parsed_args.message)
 
             if parsed_args.push:
-                core.Logger.log("Pushing to remote repository...",core.LogLevel.INFO)
-                core.GitClient.Push()
+                Logger.log("Pushing to remote repository...",LogLevel.INFO)
+                GitClient.Push()
         else:
-            core.Logger.log("Commit aborted.",core.LogLevel.WARNING)
+            Logger.log("Commit aborted.",LogLevel.WARNING)
     except Exception as e:
-        core.Logger.log(f"Error while executing command: {e}",core.LogLevel.CRITICAL)
+        Logger.log(f"Error while executing command: {e}",LogLevel.CRITICAL)
         return

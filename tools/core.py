@@ -177,5 +177,3 @@ class GitClient:
             Logger.log(f"Error while executing git push:",LogLevel.ERROR)
             Logger.log(e.stderr,LogLevel.ERROR)
             return e.returncode
-
-

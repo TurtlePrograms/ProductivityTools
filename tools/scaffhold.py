@@ -14,7 +14,7 @@ def run(args):
 
     scaffold_path = f"tools/{parsed_args.name}.py"
     scaffold_content = f"""import argparse
-import tools.core as core
+from tools.core import Cache, Logger, LogLevel
 
 def run(args):
     parser = argparse.ArgumentParser(
