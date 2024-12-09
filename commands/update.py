@@ -4,12 +4,27 @@ import os
 import sys
 import importlib
 from pathlib import Path
+from colorama import Fore
+
+asciiTag = f"""{Fore.CYAN}
+ _    _   ______   ______       _       _______   ______
+| |  | | |  __  \ |  __  \     / \     |__   __| |  ____|
+| |  | | | |__| | | |  | |    / _ \       | |    | |__
+| |  | | |  ____/ | |  | |   / /_\ \      | |    |  __|
+| |__| | | |      | |__| |  /  ____ \     | |    | |____
+\______| |_|      |______/ /_/     \_\    |_|    |______|
+
+{Fore.RESET} """
+tagWidth = 57
 
 def run(args):
     parser = argparse.ArgumentParser(
         description="Updates the project by pulling the latest changes from the repository"
     )
     parsed_args = parser.parse_args(args)
+
+    if os.get_terminal_size().columns > tagWidth:
+        print("\n".join([(" " * round((os.get_terminal_size().columns / 2) - (tagWidth / 2))) + line for line in asciiTag.split("\n")]))
 
     # Get the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
