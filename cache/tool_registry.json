@@ -1,14 +1,18 @@
 {
     "qc": {
         "description": "Quick commit changes",
-        "script":"qc"
+        "script": "qc"
     },
     "quick-commit": {
         "description": "Quick commit changes",
-        "script":"qc"
+        "script": "qc"
     },
-    "test": {
-        "description": "Run tests",
-        "script":"test"
+    "scaffhold": {
+        "description": "Create a new project",
+        "script": "scaffhold"
+    },
+    "clone": {
+        "description": "clone a git repository to a predefined folder",
+        "script": "clone"
     }
 }
