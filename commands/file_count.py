@@ -4,8 +4,9 @@ import time
 from colorama import Fore, Style
 import fnmatch
 
-def searchFolder(path, pattern, include_folders, debug, depth=0, recursion_limit=None) -> int:
+def searchFolder(path, pattern, include_folders, debug, countLines, depth=0, recursion_limit=None) -> (int, int):
     matches = 0
+    lineMatches = 0
     if recursion_limit is not None and depth >= recursion_limit:
         return matches
     
@@ -20,11 +21,18 @@ def searchFolder(path, pattern, include_folders, debug, depth=0, recursion_limit
             if include_folders and fnmatch.fnmatch(item, pattern):
                 print(Fore.BLUE + f"{subpath}") if debug else None
                 matches += 1
-            matches += searchFolder(subpath, pattern, include_folders, debug, depth + 1, recursion_limit)
+            (m, l) = searchFolder(subpath, pattern, include_folders, debug, countLines, depth + 1, recursion_limit)
+            matches += m
+            lineMatches += l
         elif fnmatch.fnmatch(item, pattern):
             print(Fore.GREEN + f"{subpath}") if debug else None
+            lineMatches += CountLines(subpath) if countLines else 0
             matches += 1
-    return matches
+    return (matches, lineMatches)
+
+def CountLines(file_path):
+    with open(file_path, 'r') as file:
+        return len(file.readlines())
 
 def run(command_args):
     parser = argparse.ArgumentParser(description='Recursively counts files matching a pattern in a directory')
@@ -32,7 +40,8 @@ def run(command_args):
     parser.add_argument('-r', '--recrusion-limit', type=int, default=None, help='The maximum recursion depth')
     parser.add_argument('-f', '--include-folders', action='store_true', help='Include folders in the count')
     parser.add_argument('-d', '--debug', action='store_true', help='Print debug information')
-    parser.add_argument('pattern', nargs='?', default=None, help='Pattern to match files and folders')
+    parser.add_argument('-l', '--count-lines', action='store_true', help='Count lines in files')
+    parser.add_argument('pattern', nargs='?', default="*", help='Pattern to match files and folders (default: "*")')
     args = parser.parse_args(command_args)
 
     root_path = os.path.abspath(args.path)
@@ -45,11 +54,14 @@ def run(command_args):
     
     print(Fore.CYAN + f"Searching for '{args.pattern}' in '{root_path}'...")
     start_time = time.time()
-    matches = searchFolder(root_path, args.pattern, args.include_folders, args.debug, recursion_limit=args.recrusion_limit)
+    matches = searchFolder(root_path, args.pattern, args.include_folders, args.debug, args.count_lines, recursion_limit=args.recrusion_limit)
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    print(Fore.CYAN + f"Search completed in {elapsed_time:.2f} seconds. Found {matches} matches.")
+    if (args.count_lines):
+        print(Fore.CYAN + f"Search completed in {elapsed_time:.2f} seconds. Found {matches[0]} matches with a total of {matches[1]} lines.")
+    else:
+        print(Fore.CYAN + f"Search completed in {elapsed_time:.2f} seconds. Found {matches[0]} matches.")
     print(Style.RESET_ALL)
 
     
