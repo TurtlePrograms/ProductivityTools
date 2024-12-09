@@ -1,0 +1,14 @@
+{
+    "qc": {
+        "description": "Quick commit changes",
+        "script":"qc"
+    },
+    "quick-commit": {
+        "description": "Quick commit changes",
+        "script":"qc"
+    },
+    "test": {
+        "description": "Run tests",
+        "script":"test"
+    }
+}
