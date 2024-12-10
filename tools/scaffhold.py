@@ -18,13 +18,13 @@ from tools.core import Cache, Logger, LogLevel
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description=core.Cache.getCache("tool_registry")['{parsed_args.name}'].get('description')
+        description=Cache.getCache("tool_registry")['{parsed_args.name}'].get('description')
     )
     # Add your arguments here
 
     parsed_args = parser.parse_args(args)
 
-    core.Logger.log("Not implemented yet",core.LogLevel.CRITICAL)
+    Logger.log("Not implemented yet",LogLevel.CRITICAL)
     return
 
 if __name__ == "__main__":
