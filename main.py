@@ -54,7 +54,9 @@ def main(args=sys.argv[1:]):
                 return
             core.Logger.log(f"Running tool '{parsed_args.tool}'", core.LogLevel.INFO)
             module = importlib.import_module(f"tools.{tool["script"]}")
-            module.run(parsed_args.tool_options)
+            output = module.run(parsed_args.tool_options)
+            if output is not None:
+                core.Logger.log(output, core.LogLevel.NONE)
         except Exception as e:
             core.Logger.log(f"Error: {e}", core.LogLevel.ERROR)
             return

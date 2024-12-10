@@ -177,3 +177,71 @@ class GitClient:
             Logger.log(f"Error while executing git push:",LogLevel.ERROR)
             Logger.log(e.stderr,LogLevel.ERROR)
             return e.returncode
+    
+    def getLatestTag()->str:
+        try:
+            result = subprocess.run(
+                ['git', 'tag', '--list', '--sort=-creatordate'], capture_output=True, text=True, check=True
+            )
+            return result.stdout.splitlines()[0]
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git describe --tags:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return ""
+        
+    def Tag(tag:str)->int:
+        try:
+            result = subprocess.run(
+                ["git","tag",tag], capture_output=True, text=True, check=True
+            )
+            Logger.log(result.stdout,LogLevel.NONE)
+            return result.returncode
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git tag:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return e.returncode
+    
+    def PushTag(tag:str)->int:
+        try:
+            result = subprocess.run(
+                ["git","push","origin",tag], capture_output=True, text=True, check=True
+            )
+            Logger.log(result.stdout,LogLevel.NONE)
+            return result.returncode
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git push origin tag:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return e.returncode
+    
+    def getAllCommitMessageSinceCommit(commit:str)->str:
+        try:
+            result = subprocess.run(
+                ["git","log","--pretty=format:%s",commit], capture_output=True, text=True, check=True
+            )
+            return result.stdout
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git log --pretty=format:%s -1 {commit}:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return ""
+
+    def getCommitIdFromTag(tag:str)->str:
+        try:
+            result = subprocess.run(
+                ['git', 'log', tag, '-n', '1', '--pretty=format:%H'], capture_output=True, text=True, check=True
+            )
+            return result.stdout
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git log --pretty=format:%s -1 {tag}:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return ""
+    
+    def getCommitsSinceID(commitID:str)->list:
+        try:
+            result = subprocess.run(
+                ['git', 'log', '--pretty=format:%s', f'{commitID}..HEAD'], capture_output=True, text=True, check=True
+            )
+            return result.stdout.splitlines()
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git log --pretty=format:%s {commitID}..HEAD:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return ""

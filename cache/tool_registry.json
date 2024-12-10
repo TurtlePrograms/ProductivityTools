@@ -1,18 +1,1 @@
-{
-    "qc": {
-        "description": "Quick commit changes",
-        "script": "qc"
-    },
-    "quick-commit": {
-        "description": "Quick commit changes",
-        "script": "qc"
-    },
-    "scaffhold": {
-        "description": "Create a new project",
-        "script": "scaffhold"
-    },
-    "clone": {
-        "description": "clone a git repository to a predefined folder",
-        "script": "clone"
-    }
-}
+{"qc": {"description": "Quick commit changes", "script": "qc"}, "quick-commit": {"description": "Quick commit changes", "script": "qc"}, "scaffhold": {"description": "Create a new project", "script": "scaffhold"}, "clone": {"description": "clone a git repository to a predefined folder", "script": "clone"}, "semver": {"description": "automatticly updates version numbers based on commits", "script": "semver"}}
