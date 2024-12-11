@@ -1,7 +1,7 @@
 import sys
 import importlib
 import argparse
-from tools.core import Logger, LogLevel, ToolRegistry
+from tools.core import Logger, LogLevel, ToolRegistry,Cache
 
 
 def main(args=sys.argv[1:]):
@@ -14,7 +14,7 @@ def main(args=sys.argv[1:]):
     parser.add_argument("tool_options", nargs=argparse.REMAINDER, help="Options for the tool")
     
     parsed_args = parser.parse_args(args)
-
+    config = Cache.getCache("config")
     if parsed_args.list:
         try:
             tools = ToolRegistry.getTools()
@@ -38,6 +38,10 @@ def main(args=sys.argv[1:]):
             if (script is None):
                 Logger.log(f"Tool '{parsed_args.tool}' not found.", LogLevel.ERROR)
                 return
+            
+            if ToolRegistry.getToolInfo(parsed_args.tool)['isExperimental'] and config['showExperimentalWarning']:
+                Logger.log("This tool is experimental and may not work as expected.", LogLevel.WARNING)
+
             Logger.log(f"Running tool '{parsed_args.tool}'", LogLevel.INFO)
             module = importlib.import_module(f"tools.{script}")
             output = module.run(parsed_args.tool_options)
@@ -53,3 +57,4 @@ def main(args=sys.argv[1:]):
 
 if __name__ == "__main__":
     main()
+

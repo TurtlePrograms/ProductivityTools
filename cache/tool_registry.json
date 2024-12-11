@@ -2,17 +2,20 @@
     "qc": {
       "description": "Quick commit changes",
       "script": "qc",
-      "aliases": ["quick-commit", "quickcommit"]
+      "aliases": ["quick-commit", "quickcommit"],
+      "isExperimental": false
     },
     "scaffhold": {
       "description": "Create a new project",
       "script": "scaffhold",
-      "aliases": []
+      "aliases": [],
+      "isExperimental": false
     },
     "semver": {
       "description": "Automatically updates version numbers based on commits",
       "script": "semver",
-      "aliases": []
+      "aliases": [],
+      "isExperimental": true
     }
   }
   

@@ -18,6 +18,7 @@ class Cache:
 
     AVAILABLE_CACHES = {
         "tool_registry": "tool_registry.json",
+        "config": "config.json"
     }
 
     def getCache(cache_name:str)->dict:
