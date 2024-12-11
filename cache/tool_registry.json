@@ -9,11 +9,6 @@
       "script": "scaffhold",
       "aliases": []
     },
-    "clone": {
-      "description": "Clone a git repository to a predefined folder",
-      "script": "clone",
-      "aliases": []
-    },
     "semver": {
       "description": "Automatically updates version numbers based on commits",
       "script": "semver",
