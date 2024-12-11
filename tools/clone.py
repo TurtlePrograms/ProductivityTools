@@ -1,11 +1,11 @@
 import argparse
-from tools.core import Cache, Logger, LogLevel
+from tools.core import ToolRegistry, Logger, LogLevel
 
 def run(args):
     
 
     parser = argparse.ArgumentParser(
-        description=Cache.getCache("tool_registry")['clone'].get('description')
+        description=ToolRegistry.getToolDescription("scaffold")
     )
     # Add your arguments here
 

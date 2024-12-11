@@ -1,6 +1,6 @@
 import argparse
 from enum import Enum
-from tools.core import Cache, Logger, LogLevel,GitClient
+from tools.core import ToolRegistry, Logger, LogLevel,GitClient
 
 class ChangeLevel(Enum):
     NONE = 0
@@ -47,7 +47,7 @@ class Semver:
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description=Cache.getCache("tool_registry")['semver'].get('description')
+        description=ToolRegistry.getToolDescription("semver")
     )
     parsed_args = parser.parse_args(args)
     

@@ -59,6 +59,91 @@ class Cache:
         except Exception as e:
             raise e
 
+class ToolRegistry:
+    
+    @staticmethod
+    def getScript(command:str)->str:
+        try:
+            tool_registry = Cache.getCache("tool_registry")
+            return tool_registry[command]["script"]
+        except KeyError:
+            for key in tool_registry.keys():
+                aliases = tool_registry[key].get("aliases", [])
+                if command in aliases:
+                    return tool_registry[key]["script"]
+            return None
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def getToolInfo(command:str)->dict:
+        try:
+            tool_registry = Cache.getCache("tool_registry")
+            return tool_registry[command]
+        except KeyError:
+            for key in tool_registry.keys():
+                aliases = tool_registry[key].get("aliases", [])
+                if command in aliases:
+                    return tool_registry[key]
+            return None
+    
+    @staticmethod
+    def getTools()->dict:
+        try:
+            tool_registry = Cache.getCache("tool_registry")
+            return tool_registry
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def getAllCommandsAndAliases()->list:
+        try:
+            tool_registry = Cache.getCache("tool_registry")
+            commands = list(tool_registry.keys())
+            for key in tool_registry.keys():
+                aliases = tool_registry[key].get("aliases", [])
+                commands += aliases
+            return commands
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def doesToolExist(command:str)->bool:
+        try:
+            return command in ToolRegistry.getAllCommandsAndAliases()
+        except Exception as e:
+            raise e
+        
+    @staticmethod
+    def registerTool(name:str, description:str, script:str, aliases:list=[])->bool:
+        try:
+            tool_registry = Cache.getCache("tool_registry")
+            if ToolRegistry.doesToolExist(name):
+                return False
+            tool_registry[name] = {
+                "description": description,
+                "script": script,
+                "aliases": []
+            }
+            for alias in aliases:
+                if not ToolRegistry.doesToolExist(alias):
+                    tool_registry[name]["aliases"].append(alias)
+
+            Cache.saveCache("tool_registry", tool_registry)
+            return True
+        except Exception as e:
+            raise e
+        
+    @staticmethod
+    def getToolDescription(command:str)->str:
+        try:
+            info = ToolRegistry.getToolInfo(command)
+            return info["description"]
+        except Exception as e:
+            raise e
+
+
+
 class LogLevel(Enum):
     DEBUG = 1
     INFO = 2
@@ -120,7 +205,7 @@ class Logger:
     def _logCritical(message: str = ""):
         print(f"{Fore.MAGENTA}{Style.BRIGHT}[{LogLevel.CRITICAL.name}] {message}")
 
-class Confirm:
+class UserInput:
     init(autoreset=True)
     @staticmethod
     def confirm(message: str, confirm_message:str="y",decline_message:str="n")->bool:

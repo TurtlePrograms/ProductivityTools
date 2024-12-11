@@ -1,7 +1,7 @@
 import sys
 import importlib
 import argparse
-import tools.core as core
+from tools.core import Logger, LogLevel, ToolRegistry
 
 
 def main(args=sys.argv[1:]):
@@ -17,48 +17,34 @@ def main(args=sys.argv[1:]):
 
     if parsed_args.list:
         try:
-            tools = core.Cache.getCache("tool_registry")
-            grouped_tools = {}
-            for tool_name, tool_info in tools.items():
-                script = tool_info["script"]
-                if script not in grouped_tools:
-                    grouped_tools[script] = {
-                        "description": tool_info["description"],
-                        "tools": []
-                    }
-                grouped_tools[script]["tools"].append(tool_name)
+            tools = ToolRegistry.getTools()
 
             # Display the tools
-            core.Logger.log("Available tools:")
-            core.Logger.log("----------------")
+            Logger.log("Available tools:")
+            Logger.log("----------------")
 
-            for script, info in grouped_tools.items():
-                tool_names = ", ".join(info["tools"])
-                core.Logger.log(f"Tools: {tool_names}")
-                core.Logger.log(f"  Description: {info['description']}")
-                core.Logger.log()
+            for tool in tools:
+                Logger.log(f"Tools: {tool}")
+                Logger.log(f"  Description: {tools[tool]['description']}")
+                if tools[tool]['aliases'] != []:
+                    Logger.log(f"  Aliases: {str.join(', ', tools[tool]['aliases'])}")
+                Logger.log()
         except Exception as e:
-            core.Logger.log(f"Error: {e}", core.LogLevel.ERROR)
+            Logger.log(f"Error: {e}", LogLevel.ERROR)
             return        
     elif parsed_args.tool:
         try:
-            tools = core.Cache.getCache("tool_registry")
-
-            if (parsed_args.tool not in tools):
-                core.Logger.log(f"Tool '{parsed_args.tool}' not found.", core.LogLevel.ERROR)
+            script = ToolRegistry.getScript(parsed_args.tool)
+            if (script is None):
+                Logger.log(f"Tool '{parsed_args.tool}' not found.", LogLevel.ERROR)
                 return
-            
-            tool = tools.get(parsed_args.tool)
-            if tool is None:
-                core.Logger.log(f"Tool '{parsed_args.tool}' not found.", core.LogLevel.ERROR)
-                return
-            core.Logger.log(f"Running tool '{parsed_args.tool}'", core.LogLevel.INFO)
-            module = importlib.import_module(f"tools.{tool["script"]}")
+            Logger.log(f"Running tool '{parsed_args.tool}'", LogLevel.INFO)
+            module = importlib.import_module(f"tools.{script}")
             output = module.run(parsed_args.tool_options)
             if output is not None:
-                core.Logger.log(output, core.LogLevel.NONE)
+                Logger.log(output, LogLevel.NONE)
         except Exception as e:
-            core.Logger.log(f"Error: {e}", core.LogLevel.ERROR)
+            Logger.log(f"Error: {e}", LogLevel.ERROR)
             return
     else:
         parser.print_help()

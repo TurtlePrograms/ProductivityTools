@@ -1,9 +1,9 @@
 import argparse
-from tools.core import GitClient, Logger, LogLevel, Confirm
+from tools.core import GitClient, Logger, LogLevel, UserInput, ToolRegistry
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description="Quick Commit tool with optional push"
+        description=ToolRegistry.getToolDescription("qc")
     )
     parser.add_argument("message", help="Commit message for the git commit")
     parser.add_argument("-p", "--push", action="store_true", help="Push after commit")
@@ -16,7 +16,7 @@ def run(args):
 
         Logger.log("Checking status of staged changes...",LogLevel.INFO)
         GitClient.Status()
-        confirmation = Confirm.confirm("Do you want to commit the changes?","y","n") if not parsed_args.no_confirm else True
+        confirmation = UserInput.confirm("Do you want to commit the changes?","y","n") if not parsed_args.no_confirm else True
 
         if confirmation:
             Logger.log(f"Committing with message: '{parsed_args.message}'",LogLevel.INFO)
