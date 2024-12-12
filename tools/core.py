@@ -1,4 +1,5 @@
 import argparse
+import argparse
 import os
 import json
 from enum import Enum
@@ -19,6 +20,7 @@ class Cache:
 
     AVAILABLE_CACHES = {
         "tool_registry": "tool_registry.json",
+        "config": "config.json",
         "config": "config.json",
     }
 
@@ -127,12 +129,14 @@ class ToolRegistry:
 
     @staticmethod
     def registerTool(name:str, description:str, aliases:list=[])->bool:
+    def registerTool(name:str, description:str, aliases:list=[])->bool:
         try:
             tool_registry = Cache.getCache("tool_registry")
             if ToolRegistry.doesToolExist(name):
                 return False
             tool_registry[name] = {
                 "description": description,
+                "script": name,
                 "script": name,
                 "aliases": [],
                 "isExperimental": True,
@@ -375,14 +379,3 @@ class GitClient:
             Logger.log(f"Error while executing git checkout:",LogLevel.ERROR)
             Logger.log(e.stderr,LogLevel.ERROR)
             return e.returncode
-    
-    def getCurrentBranch()->str:
-        try:
-            result = subprocess.run(
-                ['git', 'branch', '--show-current'], capture_output=True, text=True, check=True
-            )
-            return result.stdout
-        except subprocess.CalledProcessError as e:
-            Logger.log(f"Error while executing git branch --show-current:",LogLevel.ERROR)
-            Logger.log(e.stderr,LogLevel.ERROR)
-            return ""
