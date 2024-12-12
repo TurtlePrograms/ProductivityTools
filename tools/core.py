@@ -114,7 +114,16 @@ class ToolRegistry:
             return command in ToolRegistry.getAllCommandsAndAliases()
         except Exception as e:
             raise e
-        
+    
+    @staticmethod
+    def setToolValue(tool_name:str, key:str, value:str)->bool:
+        try:
+            tool_registry = Cache.getCache("tool_registry")
+            tool_registry[tool_name][key] = value
+            Cache.saveCache("tool_registry", tool_registry)
+        except Exception as e:
+            raise e
+
     @staticmethod
     def registerTool(name:str, description:str, script:str, aliases:list=[])->bool:
         try:
@@ -124,13 +133,17 @@ class ToolRegistry:
             tool_registry[name] = {
                 "description": description,
                 "script": script,
-                "aliases": []
+                "aliases": [],
+                "isExperimental": True,
             }
             for alias in aliases:
                 if not ToolRegistry.doesToolExist(alias):
                     tool_registry[name]["aliases"].append(alias)
 
             Cache.saveCache("tool_registry", tool_registry)
+
+            Documentation.createDocumentation(name, description)
+
             return True
         except Exception as e:
             raise e
@@ -143,7 +156,25 @@ class ToolRegistry:
         except Exception as e:
             raise e
 
-
+class Documentation:
+    @staticmethod
+    def createDocumentation(tool_name:str, description:str):
+        try:
+            doc_dir = os.path.join(Path.ROOT_DIR, "Docs")
+            if not os.path.exists(doc_dir):
+                os.makedirs(doc_dir)
+            
+            doc_path = os.path.join(doc_dir,"tools", f"{tool_name}.md")
+            with open(doc_path, "w") as file:
+                file.write(f"# {tool_name}\n\n")
+                file.write(f"# Description\n\n")
+                file.write(f"{description}\n\n")
+                file.write("## Usage\n")
+        except Exception as e:
+            raise e
+        finally:
+            relative_doc_path = os.path.relpath(doc_path, Path.ROOT_DIR)
+            ToolRegistry.setToolValue(tool_name, "documentation", relative_doc_path)
 
 class LogLevel(Enum):
     DEBUG = 1

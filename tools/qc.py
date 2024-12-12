@@ -5,10 +5,10 @@ def run(args):
     parser = argparse.ArgumentParser(
         description=ToolRegistry.getToolDescription("qc")
     )
-    parser.add_argument("message", help="Commit message for the git commit")
-    parser.add_argument("-p", "--push", action="store_true", help="Push after commit")
-    parser.add_argument("-y", "--no-confirm", action="store_true", help="Skip confirmation")
-    
+    parser.add_argument("message", help="The commit message to use for the git commit")
+    parser.add_argument("-p", "--push", action="store_true", help="If set, push the changes to the remote repository after committing")
+    parser.add_argument("-y", "--no-confirm", action="store_true", help="If set, skip the confirmation prompt before committing")
+
     parsed_args = parser.parse_args(args)
     try:
         Logger.log("Staging changes...",LogLevel.INFO)

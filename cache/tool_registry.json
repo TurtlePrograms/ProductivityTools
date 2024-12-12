@@ -1,21 +1,26 @@
 {
-    "qc": {
-      "description": "Quick commit changes",
-      "script": "qc",
-      "aliases": ["quick-commit", "quickcommit"],
-      "isExperimental": false
-    },
-    "scaffhold": {
-      "description": "Create a new project",
-      "script": "scaffhold",
-      "aliases": [],
-      "isExperimental": false
-    },
-    "semver": {
-      "description": "Automatically updates version numbers based on commits",
-      "script": "semver",
-      "aliases": [],
-      "isExperimental": true
-    }
+  "qc": {
+    "description": "Quick commit changes",
+    "script": "qc",
+    "aliases": [
+      "quick-commit",
+      "quickcommit"
+    ],
+    "isExperimental": false,
+    "documentation": "Docs\\tools\\qc.md"
+  },
+  "scaffhold": {
+    "description": "Create a new project",
+    "script": "scaffhold",
+    "aliases": [],
+    "isExperimental": false,
+    "documentation": "Docs\\tools\\scaffhold.md"
+  },
+  "semver": {
+    "description": "Automatically updates version numbers based on commits",
+    "script": "semver",
+    "aliases": [],
+    "isExperimental": true,
+    "documentation": "Docs\\tools\\semver.md"
   }
-  
+}

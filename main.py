@@ -28,6 +28,7 @@ def main(args=sys.argv[1:]):
                 Logger.log(f"  Description: {tools[tool]['description']}")
                 if tools[tool]['aliases'] != []:
                     Logger.log(f"  Aliases: {str.join(', ', tools[tool]['aliases'])}")
+                Logger.log(f"more details at {tools[tool]['documentation']}")
                 Logger.log()
         except Exception as e:
             Logger.log(f"Error: {e}", LogLevel.ERROR)
