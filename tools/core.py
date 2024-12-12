@@ -129,7 +129,6 @@ class ToolRegistry:
 
     @staticmethod
     def registerTool(name:str, description:str, aliases:list=[])->bool:
-    def registerTool(name:str, description:str, aliases:list=[])->bool:
         try:
             tool_registry = Cache.getCache("tool_registry")
             if ToolRegistry.doesToolExist(name):
