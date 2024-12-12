@@ -1,7 +1,7 @@
-# Scaffhold
+# scaffold
 
 ## Description
-Quickly scaffhold a new tool
+Quickly scaffold a new tool
 
 ## Usage
 ```

@@ -9,12 +9,12 @@
     "isExperimental": false,
     "documentation": "Docs\\tools\\qc.md"
   },
-  "scaffhold": {
+  "scaffold": {
     "description": "Create a new project",
-    "script": "scaffhold",
+    "script": "scaffold",
     "aliases": [],
     "isExperimental": false,
-    "documentation": "Docs\\tools\\scaffhold.md"
+    "documentation": "Docs\\tools\\scaffold.md"
   },
   "semver": {
     "description": "Automatically updates version numbers based on commits",

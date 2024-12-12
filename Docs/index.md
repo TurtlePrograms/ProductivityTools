@@ -5,7 +5,7 @@
 - [Usage Overview](../readme.md#usage-overview)
 - [Tools](#tools)
   - [Quick Commit](tools/qc.md)
-  - [Scaffold](tools/scaffhold.md)
+  - [Scaffold](tools/scaffold.md)
   - [Clone](tools/clone.md)
   - [Semver](tools/semver.md)
 
@@ -29,7 +29,7 @@ Use `pt --list` to get an overview of the available tools
 See [Quick Commit Documentation](tools/qc.md).
 
 ### Scaffold
-See [Scaffold Documentation](tools/scaffhold.md).
+See [Scaffold Documentation](tools/scaffold.md).
 
 ### Clone
 See [Clone Documentation](tools/clone.md).

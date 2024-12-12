@@ -4,7 +4,7 @@ from tools.core import Logger, LogLevel, ToolRegistry
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description=ToolRegistry.getToolDescription("scaffhold")
+        description=ToolRegistry.getToolDescription("scaffold")
     )
     parser.add_argument("name", help="Name of the new tool")
     parser.add_argument("-d", "--description", help="Description of the new tool")
