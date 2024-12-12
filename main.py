@@ -42,6 +42,10 @@ def main(args=sys.argv[1:]):
                 Logger.log(f"Tool '{parsed_args.tool}' not found.", LogLevel.ERROR)
                 return
             
+            if not config['showExperimentalWarning']:
+                config['showExperimentalWarning'] = True
+                Cache.setCache("config",config)
+
             if ToolRegistry.getToolInfo(parsed_args.tool)['isExperimental'] and config['showExperimentalWarning']:
                 Logger.log("This tool is experimental and may not work as expected.", LogLevel.WARNING)
 
