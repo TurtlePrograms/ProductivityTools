@@ -378,3 +378,14 @@ class GitClient:
             Logger.log(f"Error while executing git checkout:",LogLevel.ERROR)
             Logger.log(e.stderr,LogLevel.ERROR)
             return e.returncode
+    
+    def getCurrentBranch()->str:
+        try:
+            result = subprocess.run(
+                ['git', 'branch', '--show-current'], capture_output=True, text=True, check=True
+            )
+            return result.stdout
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git branch --show-current:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return ""
