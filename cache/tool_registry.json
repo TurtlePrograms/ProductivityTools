@@ -22,5 +22,12 @@
     "aliases": [],
     "isExperimental": true,
     "documentation": "Docs\\tools\\semver.md"
+  },
+  "publish": {
+    "description": "attempts to create a new release",
+    "script": "publish",
+    "aliases": [],
+    "isExperimental": true,
+    "documentation": "Docs\\tools\\publish.md"
   }
 }

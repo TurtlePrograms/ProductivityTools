@@ -5,15 +5,17 @@ from tools.core import Logger, LogLevel, ToolRegistry,Cache
 
 
 def main(args=sys.argv[1:]):
-    parser = argparse.ArgumentParser(description="Run a tool or list available tools")
-    
+    parser = argparse.ArgumentParser(
+        description="Run a tool or list available tools"   
+     )
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--list", action="store_true", help="List available tools")
     group.add_argument("tool", nargs="?", help="The tool to run")
     
     parser.add_argument("tool_options", nargs=argparse.REMAINDER, help="Options for the tool")
-    
+
     parsed_args = parser.parse_args(args)
+
     config = Cache.getCache("config")
     if parsed_args.list:
         try:
