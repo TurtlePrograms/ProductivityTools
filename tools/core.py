@@ -1,5 +1,4 @@
 import argparse
-import argparse
 import os
 import json
 from enum import Enum

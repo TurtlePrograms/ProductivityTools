@@ -5,7 +5,7 @@ Quickly scaffold a new tool
 
 ## Usage
 ```
-usage: main.py [-h] [-d DESCRIPTION] [-a ALIAS] name
+usage: pt scaffold [-h] [-d DESCRIPTION] [-a ALIAS] name
 
 Create a new project
 

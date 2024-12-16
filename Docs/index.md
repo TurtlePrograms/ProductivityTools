@@ -6,8 +6,8 @@
 - [Tools](#tools)
   - [Quick Commit](tools/qc.md)
   - [Scaffold](tools/scaffold.md)
-  - [Clone](tools/clone.md)
   - [Semver](tools/semver.md)
+  - [Git Open](tools/go.md)
 
 
 ## Installation
@@ -23,16 +23,3 @@ To install and start using Productivity Tools, follow these steps:
 ## Usage Overview
 Run `pt command [OPTIONS]` from your favorite terminal  
 Use `pt --list` to get an overview of the available tools
-
-## Tools
-### Quick Commit
-See [Quick Commit Documentation](tools/qc.md).
-
-### Scaffold
-See [Scaffold Documentation](tools/scaffold.md).
-
-### Clone
-See [Clone Documentation](tools/clone.md).
-
-### Semver
-See [Semver Documentation](tools/semver.md).

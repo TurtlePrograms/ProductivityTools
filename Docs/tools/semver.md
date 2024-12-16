@@ -7,7 +7,7 @@ The Semver tool automatically updates version numbers based on commit messages. 
 this will not tag it wil only calculate the next version number based on the commit messages
 
 ## Usage
-usage: main.py [-h]
+usage: pt semver [-h]
 
 Automatically updates version numbers based on commits
 

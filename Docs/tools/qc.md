@@ -5,7 +5,7 @@ Quickly create a Git commit, with optional push and confirmation bypass.
 
 ## Usage
 ```
-usage: main.py [-h] [-p] [-y] message
+usage: pt qc [-h] [-p] [-y] message
 
 Quick commit changes
 
