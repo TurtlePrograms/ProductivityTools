@@ -21,7 +21,6 @@ class Cache:
     AVAILABLE_CACHES = {
         "tool_registry": "tool_registry.json",
         "config": "config.json",
-        "config": "config.json",
     }
 
     def getCache(cache_name:str)->dict:
@@ -389,3 +388,15 @@ class GitClient:
             Logger.log(f"Error while executing git branch --show-current:",LogLevel.ERROR)
             Logger.log(e.stderr,LogLevel.ERROR)
             return ""
+    
+    def getRemoteUrl()->str:
+        try:
+            result = subprocess.run(
+                ['git', 'config', '--get', 'remote.origin.url'], capture_output=True, text=True, check=True
+            )
+            return result.stdout
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git config --get remote.origin.url:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return ""
+    
