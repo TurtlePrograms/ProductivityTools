@@ -22,16 +22,19 @@ def main(args=sys.argv[1:]):
             tools = ToolRegistry.getTools()
 
             # Display the tools
-            Logger.log("Available tools:")
-            Logger.log("----------------")
+            Logger.log("Available Tools")
+            Logger.log("=" * 50)
 
-            for tool in tools:
-                Logger.log(f"Tools: {tool}")
-                Logger.log(f"  Description: {tools[tool]['description']}")
-                if tools[tool]['aliases'] != []:
-                    Logger.log(f"  Aliases: {str.join(', ', tools[tool]['aliases'])}")
-                Logger.log(f"more details at {tools[tool]['documentation']}")
-                Logger.log()
+            for tool, details in tools.items():
+                Logger.log(f"Tool Name:         {tool}")
+                Logger.log(f"Description:       {details['description']}")
+                aliases = ", ".join(details['aliases']) if details['aliases'] else "None"
+                Logger.log(f"Aliases:           {aliases}")
+                is_exp_message = "Yes" if details['isExperimental'] else "No"
+                Logger.log(f"Experimental:      {is_exp_message}")
+                Logger.log(f"Documentation:     {details['documentation']}")
+                Logger.log("-" * 50)
+
         except Exception as e:
             Logger.log(f"Error: {e}", LogLevel.ERROR)
             return        

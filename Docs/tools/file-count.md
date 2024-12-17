@@ -6,7 +6,7 @@ Recursively counts files matching a pattern in a directory
 
 ## Usage
 ```
-usage: main.py [-h] [-p PATH] [-r RECRUSION_LIMIT] [-f] [-d] [-l] [pattern]
+usage: pt file-count [-h] [-p PATH] [-r RECRUSION_LIMIT] [-f] [-d] [-l] [pattern]
 
 Recursively counts files matching a pattern in a directory
 

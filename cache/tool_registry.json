@@ -64,5 +64,12 @@
         "aliases": [],
         "isExperimental": true,
         "documentation": "Docs\\tools\\git-reset.md"
+    },
+    "requirements": {
+        "description": "handles things related to pip requirements",
+        "script": "requirements",
+        "aliases": [],
+        "isExperimental": true,
+        "documentation": "Docs\\tools\\requirements.md"
     }
 }

@@ -6,7 +6,7 @@ open the productivitytools project
 
 ## Usage
 ```
-usage: main.py [-h] [--tool {vscode,explorer}]
+usage: pt open [-h] [--tool {vscode,explorer}]
 
 open the productivitytools project
 
