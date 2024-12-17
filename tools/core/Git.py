@@ -1,3 +1,4 @@
+from typing import List
 from tools.core.Logging import Logger,LogLevel
 import subprocess
 from colorama import init
@@ -156,3 +157,26 @@ class GitClient:
             Logger.log(e.stderr,LogLevel.ERROR)
             return ""
     
+    def Reset(flags:List[str])->int:
+        try:
+            result = subprocess.run(
+                ["git","reset",*flags], capture_output=True, text=True, check=True
+            )
+            Logger.log(result.stdout,LogLevel.NONE)
+            return result.returncode
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git reset:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return e.returncode
+    
+    def Clean(flags:List[str]) ->int:
+        try:
+            result = subprocess.run(
+                ["git","clean",*flags], capture_output=True, text=True, check=True
+            )
+            Logger.log(result.stdout,LogLevel.NONE)
+            return result.returncode
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git clean:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return e.returncode

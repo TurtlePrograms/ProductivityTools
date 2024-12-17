@@ -1,6 +1,6 @@
 import argparse
 import webbrowser
-from tools.core import ToolRegistry, GitClient
+from tools.core import ToolRegistry, GitClient, Logger, LogLevel
 
 def run(args):
     parser = argparse.ArgumentParser(
@@ -12,4 +12,5 @@ def run(args):
     return
 
 if __name__ == "__main__":
-    run()
+    Logger.log("Cannot run this tool directly", LogLevel.CRITICAL)
+

@@ -86,4 +86,6 @@ def run(args):
     return (isTagUpdated,str(newTag),str(latestTag),currentLevel.name)
 
 if __name__ == "__main__":
-    run()
+    Logger.log("Cannot run this tool directly", LogLevel.CRITICAL)
+
+

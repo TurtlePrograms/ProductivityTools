@@ -8,7 +8,7 @@
   - [Scaffold](tools/scaffold.md)
   - [Semver](tools/semver.md)
   - [Git Open](tools/go.md)
-
+  - [Watch](tools/watch.md)
 
 ## Installation
 

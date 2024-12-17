@@ -30,3 +30,6 @@ def run(args):
     except Exception as e:
         Logger.log(f"Error while executing command: {e}",LogLevel.CRITICAL)
         return
+
+if __name__ == "__main__":
+    Logger.log("Cannot run this tool directly", LogLevel.CRITICAL)

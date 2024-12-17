@@ -7,6 +7,7 @@ class Cache:
     AVAILABLE_CACHES = {
         "tool_registry": "tool_registry.json",
         "config": "config.json",
+        "IgnoreFolders": "IgnoreFolders.json",	
     }
 
     def getCache(cache_name:str)->dict:
@@ -35,7 +36,7 @@ class Cache:
         
             path = os.path.join(Path.CACHE_DIR, Cache.AVAILABLE_CACHES[cache_name])
             with open(path, "w") as file:
-                json.dump(cache, file)
+                json.dump(cache, file, indent=4)
             return True
         except FileNotFoundError:
             return False
@@ -159,8 +160,11 @@ class Documentation:
                 file.write(f"# Description\n\n")
                 file.write(f"{description}\n\n")
                 file.write("## Usage\n")
+                file.write(f"```\nUsage: pt {tool_name} [arguments]\n```\n\n")
         except Exception as e:
             raise e
         finally:
             relative_doc_path = os.path.relpath(doc_path, Path.ROOT_DIR)
             ToolRegistry.setToolValue(tool_name, "documentation", relative_doc_path)
+
+

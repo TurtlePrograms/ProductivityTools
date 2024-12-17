@@ -1,0 +1,13 @@
+{"folders":[
+    "node_modules",
+    "bower_components",
+    "dist",
+    "build",
+    "out",
+    "target",
+    "tmp",
+    "temp",
+    "__pycache__",
+    ".vscode",	
+    ".git"
+]}

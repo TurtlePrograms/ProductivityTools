@@ -28,7 +28,7 @@ def run(args):
     return
 
 if __name__ == "__main__":
-    run()
+        Logger.log("Cannot run this tool directly", LogLevel.CRITICAL)
 """
 
     if ToolRegistry.doesToolExist(parsed_args.name):
@@ -39,5 +39,5 @@ if __name__ == "__main__":
 
     with open(scaffold_path, "w") as f:
         f.write(scaffold_content)
-    
+
     Logger.log(f"Created new tool scaffold at {scaffold_path}", LogLevel.INFO)
