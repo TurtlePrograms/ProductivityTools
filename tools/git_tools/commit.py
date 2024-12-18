@@ -6,7 +6,7 @@ import os
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description=ToolRegistry.getToolDescription("qc")
+        description=ToolRegistry.getToolDescription("commit","git")
     )
     parser.add_argument("message", help="The commit message to use for the git commit")
     parser.add_argument("-p", "--push", action="store_true", help="If set, push the changes to the remote repository after committing")
@@ -24,8 +24,6 @@ def run(args):
         if confirmation:
             Logger.log(f"Committing with message: '{parsed_args.message}'",LogLevel.INFO)
             GitClient.Commit(parsed_args.message)
-
-            subprocess.run(["pt","note",datetime.datetime.today().isoformat("YYYY-MM-DD"),f"{os.getcwd()}: {parsed_args.message}"])
 
             if parsed_args.push:
                 Logger.log("Pushing to remote repository...",LogLevel.INFO)

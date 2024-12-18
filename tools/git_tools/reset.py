@@ -18,7 +18,7 @@ def delete_files(path):
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description=ToolRegistry.getToolDescription("git-reset")
+        description=ToolRegistry.getToolDescription("reset","git")
     )
     parsed_args = parser.parse_args(args)
 

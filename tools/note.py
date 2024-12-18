@@ -24,7 +24,7 @@ def listNotes(noteName: str = None):
             Logger.log(addIndentation(str(cache[noteName]), 0), LogLevel.NONE)
             Logger.log("", LogLevel.NONE)
         elif noteName and noteName not in cache:
-            print(f"Note \"{noteName}\" not found")
+            Logger.log(f"Note \"{noteName}\" not found", LogLevel.ERROR)
         else:
             for noteName, note in cache.items():
                 Logger.log(f"Note: {noteName}", LogLevel.NONE)

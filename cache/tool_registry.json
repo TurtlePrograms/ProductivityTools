@@ -1,82 +1,84 @@
 {
-    "qc": {
-        "description": "Quick commit changes",
-        "script": "qc",
-        "aliases": [
-            "quick-commit",
-            "quickcommit"
-        ],
-        "isExperimental": false,
-        "documentation": "Docs\\tools\\qc.md"
+    "base": {
+        "scaffold": {
+            "description": "Create a new project",
+            "script": "scaffold",
+            "isExperimental": false,
+            "documentation": "Docs\\tools\\scaffold.md"
+        },
+        "semver": {
+            "description": "Automatically updates version numbers based on commits",
+            "script": "semver",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\semver.md"
+        },
+        "watch": {
+            "description": "run command every x seconds",
+            "script": "watch",
+            "isExperimental": false,
+            "documentation": "Docs\\tools\\watch.md"
+        },
+        "tree": {
+            "description": "create a folder tree",
+            "script": "tree",
+            "isExperimental": false,
+            "documentation": "Docs\\tools\\tree.md"
+        },
+        "open": {
+            "description": "open the productivitytools project",
+            "script": "open",
+            "isExperimental": false,
+            "documentation": "Docs\\tools\\open.md"
+        },
+        "file-count": {
+            "description": "Recursively counts files matching a pattern in a directory",
+            "script": "file-count",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\file-count.md"
+        },
+        "requirements": {
+            "description": "handles things related to pip requirements",
+            "script": "requirements",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\requirements.md"
+        },
+        "note": {
+            "description": "keep notes",
+            "script": "note",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\note.md"
+        },
+        "git": {
+            "description": "git section manager",
+            "script": "git",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\git.md"
+        }
     },
-    "scaffold": {
-        "description": "Create a new project",
-        "script": "scaffold",
-        "aliases": [],
-        "isExperimental": false,
-        "documentation": "Docs\\tools\\scaffold.md"
+    "aliases": {
+        "qc": {
+            "section": "git",
+            "tool": "commit"
+        }
     },
-    "semver": {
-        "description": "Automatically updates version numbers based on commits",
-        "script": "semver",
-        "aliases": [],
-        "isExperimental": true,
-        "documentation": "Docs\\tools\\semver.md"
-    },
-    "go": {
-        "description": "git open, opens the remote of the current repository",
-        "script": "go",
-        "aliases": [],
-        "isExperimental": false,
-        "documentation": "Docs\\tools\\go.md"
-    },
-    "watch": {
-        "description": "run command every x seconds",
-        "script": "watch",
-        "aliases": [],
-        "isExperimental": false,
-        "documentation": "Docs\\tools\\watch.md"
-    },
-    "tree": {
-        "description": "create a folder tree",
-        "script": "tree",
-        "aliases": [],
-        "isExperimental": false,
-        "documentation": "Docs\\tools\\tree.md"
-    },
-    "open": {
-        "description": "open the productivitytools project",
-        "script": "open",
-        "aliases": [],
-        "isExperimental": false,
-        "documentation": "Docs\\tools\\open.md"
-    },
-    "file-count": {
-        "description": "Recursively counts files matching a pattern in a directory",
-        "script": "file-count",
-        "aliases": [],
-        "isExperimental": true,
-        "documentation": "Docs\\tools\\file-count.md"
-    },
-    "git-reset": {
-        "description": null,
-        "script": "git-reset",
-        "aliases": [],
-        "isExperimental": true,
-        "documentation": "Docs\\tools\\git-reset.md"
-    },
-    "requirements": {
-        "description": "handles things related to pip requirements",
-        "script": "requirements",
-        "aliases": [],
-        "isExperimental": true,
-        "documentation": "Docs\\tools\\requirements.md"
-    },
-    "note": {
-        "description": "keep notes",
-        "script": "note",
-        "aliases": [],
-        "isExperimental": true,
-        "documentation": "Docs\\tools\\note.md"
+    "git": {
+        "open": {
+            "description": "git open, opens the remote of the current repository",
+            "script": "open",
+            "isExperimental": false,
+            "documentation": "Docs\\tools\\git\\open.md"
+        },
+        "reset": {
+            "description": null,
+            "script": "reset",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\git\\reset.md"
+        },
+        "commit": {
+            "description": "Quick commit changes",
+            "script": "commit",
+            "isExperimental": false,
+            "documentation": "Docs\\tools\\git\\commit.md"
+        }
     }
 }

@@ -4,10 +4,9 @@ from tools.core import ToolRegistry, GitClient, Logger, LogLevel
 
 def run(args):
     parser = argparse.ArgumentParser(
-        description=ToolRegistry.getToolDescription("go")
+        description=ToolRegistry.getToolDescription("open","git")
     )
     parsed_args = parser.parse_args(args)
-
     webbrowser.open_new_tab(GitClient.getRemoteUrl())
     return
 

@@ -1,6 +1,7 @@
 from tools.core.Path import Path
 import os
 import json
+from typing import Tuple
 
 class Cache:
 
@@ -53,30 +54,27 @@ class Cache:
 class ToolRegistry:
     
     @staticmethod
-    def getScript(command:str)->str:
+    def getScript(command:str,section:str)->str:
         try:
-            tool_registry = Cache.getCache("tool_registry")
-            return tool_registry[command]["script"]
-        except KeyError:
-            for key in tool_registry.keys():
-                aliases = tool_registry[key].get("aliases", [])
-                if command in aliases:
-                    return tool_registry[key]["script"]
-            return None
+            ToolRegistry.getToolInfo(command,section)
+            return ToolRegistry.getToolInfo(command,section)["script"]
         except Exception as e:
             raise e
     
     @staticmethod
-    def getToolInfo(command:str)->dict:
+
+    def getToolInfo(command:str,section:str)->Tuple[dict, str]:
         try:
             tool_registry = Cache.getCache("tool_registry")
-            return tool_registry[command]
+            if section is None or tool_registry.get(section) is None:
+                return None
+            tool_registry = tool_registry[section]
+            return [tool_registry[command],section]
         except KeyError:
-            for key in tool_registry.keys():
-                aliases = tool_registry[key].get("aliases", [])
-                if command in aliases:
-                    return tool_registry[key]
-            return None
+            alliases = Cache.getCache("tool_registry").get("aliases", [])
+            for alias in alliases:
+                if alias == command:
+                    return ToolRegistry.getToolInfo(alliases[alias]['tool'],alliases[alias]['section'])
     
     @staticmethod
     def getTools()->dict:
@@ -90,82 +88,101 @@ class ToolRegistry:
     def getAllCommandsAndAliases()->list:
         try:
             tool_registry = Cache.getCache("tool_registry")
-            commands = list(tool_registry.keys())
+            commands = []
             for key in tool_registry.keys():
-                aliases = tool_registry[key].get("aliases", [])
-                commands += aliases
+                for command in tool_registry[key]:
+                    commands.append(command)
             return commands
         except Exception as e:
             raise e
     
     @staticmethod
-    def doesToolExist(command:str)->bool:
+    def getAllCommandsInSectionAndAliases(section:str)->list:
         try:
-            return command in ToolRegistry.getAllCommandsAndAliases()
+            tool_registry = Cache.getCache("tool_registry")
+            commands = []
+            for key in tool_registry[section].keys():
+                commands.append(key)
+            for alias in tool_registry['aliases']:
+                commands.append(alias)
+            return commands
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def doesToolExist(command:str,section:str)->bool:
+        try:
+            return command in ToolRegistry.getAllCommandsInSectionAndAliases(section)
         except Exception as e:
             raise e
     
     @staticmethod
-    def setToolValue(tool_name:str, key:str, value:str)->bool:
+    def setToolValue(section:str, tool_name:str, key:str, value:str)->bool:
         try:
             tool_registry = Cache.getCache("tool_registry")
-            tool_registry[tool_name][key] = value
+            tool_registry[section][tool_name][key] = value
             Cache.saveCache("tool_registry", tool_registry)
         except Exception as e:
             raise e
 
     @staticmethod
-    def registerTool(name:str, description:str, aliases:list=[])->bool:
+    def registerTool(name:str, description:str,section:str, aliases:list=[])->bool:
         try:
             tool_registry = Cache.getCache("tool_registry")
-            if ToolRegistry.doesToolExist(name):
+            if ToolRegistry.doesToolExist(name,section):
                 return False
-            tool_registry[name] = {
+            tool_registry[section][name] = {
                 "description": description,
                 "script": name,
-                "script": name,
-                "aliases": [],
                 "isExperimental": True,
             }
             for alias in aliases:
-                if not ToolRegistry.doesToolExist(alias):
-                    tool_registry[name]["aliases"].append(alias)
+                if not ToolRegistry.doesToolExist(alias,section):
+                    tool_registry['aliases'][alias] = {
+                        "tool": name,
+                        "section": section
+                    }
 
             Cache.saveCache("tool_registry", tool_registry)
 
-            Documentation.createDocumentation(name, description)
+            Documentation.createDocumentation(name, description,section)
 
             return True
         except Exception as e:
             raise e
         
     @staticmethod
-    def getToolDescription(command:str)->str:
+    def getToolDescription(command:str,section:str="base")->str:
         try:
-            info = ToolRegistry.getToolInfo(command)
+            info = ToolRegistry.getToolInfo(command,section)[0]
             return info["description"]
         except Exception as e:
             raise e
 
 class Documentation:
     @staticmethod
-    def createDocumentation(tool_name:str, description:str):
+    def createDocumentation(tool_name:str, description:str,section:str):
         try:
-            doc_dir = os.path.join(Path.ROOT_DIR, "Docs")
+            doc_dir = os.path.join(Path.ROOT_DIR, "Docs", "tools")
+            if section != "base":
+                doc_dir = os.path.join(doc_dir, section)
             if not os.path.exists(doc_dir):
                 os.makedirs(doc_dir)
             
-            doc_path = os.path.join(doc_dir,"tools", f"{tool_name}.md")
+            doc_path = os.path.join(doc_dir,f"{tool_name}.md")
             with open(doc_path, "w") as file:
                 file.write(f"# {tool_name}\n\n")
                 file.write(f"# Description\n\n")
                 file.write(f"{description}\n\n")
                 file.write("## Usage\n")
-                file.write(f"```\nUsage: pt {tool_name} [arguments]\n```\n\n")
+                if section != "base":
+                    file.write(f"```\nUsage: pt {section} {tool_name} [arguments]\n```\n\n")
+                else:
+                    file.write(f"```\nUsage: pt {tool_name} [arguments]\n```\n\n")
         except Exception as e:
             raise e
         finally:
             relative_doc_path = os.path.relpath(doc_path, Path.ROOT_DIR)
-            ToolRegistry.setToolValue(tool_name, "documentation", relative_doc_path)
+            ToolRegistry.setToolValue(section, tool_name, "documentation", relative_doc_path)
 
 
