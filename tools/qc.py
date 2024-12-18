@@ -25,7 +25,7 @@ def run(args):
             Logger.log(f"Committing with message: '{parsed_args.message}'",LogLevel.INFO)
             GitClient.Commit(parsed_args.message)
 
-            subprocess.run(["pt","note",datetime.datetime.today,f"{os.getcwd()}: {parsed_args.message}"])
+            subprocess.run(["pt","note",datetime.datetime.today(),f"{os.getcwd()}: {parsed_args.message}"])
 
             if parsed_args.push:
                 Logger.log("Pushing to remote repository...",LogLevel.INFO)
