@@ -1,5 +1,8 @@
 import argparse
 from tools.core import GitClient, Logger, LogLevel, UserInput, ToolRegistry
+import subprocess
+import datetime
+import os
 
 def run(args):
     parser = argparse.ArgumentParser(
@@ -21,6 +24,8 @@ def run(args):
         if confirmation:
             Logger.log(f"Committing with message: '{parsed_args.message}'",LogLevel.INFO)
             GitClient.Commit(parsed_args.message)
+
+            subprocess.run(["pt","note",datetime.datetime.today,f"{os.getcwd()}: {parsed_args.message}"])
 
             if parsed_args.push:
                 Logger.log("Pushing to remote repository...",LogLevel.INFO)

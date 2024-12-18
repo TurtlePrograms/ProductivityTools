@@ -8,6 +8,7 @@ class Cache:
         "tool_registry": "tool_registry.json",
         "config": "config.json",
         "IgnoreFolders": "IgnoreFolders.json",	
+        "notes": "notes.json",
     }
 
     def getCache(cache_name:str)->dict:

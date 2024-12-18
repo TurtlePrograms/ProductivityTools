@@ -21,7 +21,7 @@ class Logger:
         Logger.verbosity_level = level
 
     @staticmethod
-    def log(message: str = "", level: LogLevel = LogLevel.NONE):
+    def log(message: str, level: LogLevel):
         if level == LogLevel.NONE:
             Logger._logPrint(message)
             return

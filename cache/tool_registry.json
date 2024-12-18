@@ -71,5 +71,12 @@
         "aliases": [],
         "isExperimental": true,
         "documentation": "Docs\\tools\\requirements.md"
+    },
+    "note": {
+        "description": "keep notes",
+        "script": "note",
+        "aliases": [],
+        "isExperimental": true,
+        "documentation": "Docs\\tools\\note.md"
     }
 }
