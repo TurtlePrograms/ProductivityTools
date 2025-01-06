@@ -41,8 +41,8 @@ def map_tree(args, startpath: str, depth: int = 0) -> dict:
         return tree
     except PermissionError:
         return tree
-
-def tree_to_list(tree: dict, noColor: bool, prefix='') -> list:
+    
+def formatAsciiTree(tree: dict, noColor: bool, prefix='') -> list:
     tree_list = []
     items = list(tree.keys())
     for index, item in enumerate(items):
@@ -57,7 +57,7 @@ def tree_to_list(tree: dict, noColor: bool, prefix='') -> list:
             else:
                 tree_list.append(f"{prefix}{connector}{Fore.LIGHTBLUE_EX}{item}/{Fore.RESET}")
             new_prefix = prefix + ("  " if connector == '\-' else "| ")
-            tree_list.extend(tree_to_list(tree_item, noColor, new_prefix))
+            tree_list.extend(formatAsciiTree(tree_item, noColor, new_prefix))
         else:
             if noColor:
                 tree_list.append(f"{prefix}{connector}{item}")
@@ -69,8 +69,52 @@ def tree_to_list(tree: dict, noColor: bool, prefix='') -> list:
                 tree_list.append(f"{prefix}{connector}{item}")
     return tree_list
 
-def print_tree(rootPath: str, tree: dict, noColor: bool):
-    tree_list = tree_to_list(tree, noColor)
+def formatMarkdownTree(tree: dict, noColor: bool, prefix='') -> list:
+    tree_list = []
+    items = list(tree.keys())
+    for index, item in enumerate(items):
+        if index == len(items) - 1:
+            connector = '  '
+        else:
+            connector = '  '
+        tree_item = tree[item]
+        if isinstance(tree_item, dict):
+            tree_list.append(f"{prefix}- {item}/")
+            new_prefix = prefix + "  "
+            tree_list.extend(formatMarkdownTree(tree_item, noColor, new_prefix))
+        else:
+            tree_list.append(f"{prefix}- {item}")
+    return tree_list
+
+def formatJsonTree(tree: dict, noColor: bool, prefix='') -> list:
+    tree_list = []
+    items = list(tree.keys())
+    for index, item in enumerate(items):
+        tree_item = tree[item]
+        if isinstance(tree_item, dict):
+            tree_list.append(f"{prefix}\"{item}\": {{")
+            new_prefix = prefix + "  "
+            tree_list.extend(formatJsonTree(tree_item, noColor, new_prefix))
+            tree_list.append(f"{prefix}}}")
+        else:
+            tree_list.append(f"  {prefix}\"{item}\": {tree_item.CanRead},")
+    return tree_list
+
+def formatTree(tree: dict, noColor: bool, prefix='', format='ascii') -> list:
+    if format == 'ascii':
+        return formatAsciiTree(tree, noColor, prefix)
+    elif format == 'markdown':
+        return formatMarkdownTree(tree, noColor, prefix)
+    elif format == 'json':
+        return formatJsonTree(tree, noColor, prefix)
+    else:
+        return formatAsciiTree(tree, noColor, prefix)
+
+def print_tree(rootPath: str, tree: dict, noColor: bool, format='ascii'):
+    # format tree
+    tree_list = formatTree(tree, noColor, '', format)
+    
+    # print tree
     base_root_path = os.path.basename(os.path.abspath(rootPath))
     if noColor:
         treestr = f"{base_root_path}/\n" + '\n'.join(tree_list)
@@ -78,8 +122,9 @@ def print_tree(rootPath: str, tree: dict, noColor: bool):
         treestr = f"{Fore.LIGHTBLUE_EX}{base_root_path}/{Fore.RESET}\n" + '\n'.join(tree_list)
     Logger.log(treestr, LogLevel.NONE)
     
-def write_file(rootPath: str, tree: dict, file):
-    tree_list = tree_to_list(tree, True)
+def write_file(rootPath: str, tree: dict, file, format='ascii'):
+    tree_list = formatTree(tree, True, '', format)
+
     base_root_path = os.path.basename(os.path.abspath(rootPath))
     treestr = f"{base_root_path}/\n" + '\n'.join(tree_list)
     file.write(treestr)
@@ -95,6 +140,7 @@ def run(args):
     parser.add_argument('--no-print', action='store_true', help='Do not print the tree')
     parser.add_argument('-r', '--recrusion-limit', type=int, default=None, help='The maximum depth of the tree')
     parser.add_argument('-d', '--debug', action='store_true', help='Print debug information')
+    parser.add_argument('--formatting', type=str, default='ascii', help='The formatting of the tree (ascii, markdown, json)')
     parser.add_argument('--no-color', action='store_true', help='Disable colored output')
 
     parsed_args = parser.parse_args(args)
@@ -107,11 +153,11 @@ def run(args):
     Logger.log(f"Time taken: {round(eTime - stime)} seconds",LogLevel.DEBUG) if parsed_args.debug else None
     
     if not parsed_args.no_print:
-        print_tree(parsed_args.path, tree_structure, parsed_args.no_color)
+        print_tree(parsed_args.path, tree_structure, parsed_args.no_color, parsed_args.formatting)
 
     if parsed_args.output:
         with open(parsed_args.output, 'w') as file:
-            write_file(parsed_args.path, tree_structure, file)
+            write_file(parsed_args.path, tree_structure, file, parsed_args.formatting)
     return
 
 if __name__ == "__main__":
