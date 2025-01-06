@@ -1,14 +1,22 @@
 # Productivity Tools Documentation
 
 ## Table of Contents
-- [Installation](../readme.md#installation)
-- [Usage Overview](../readme.md#usage-overview)
-- [Tools](#tools)
-  - [Quick Commit](tools/qc.md)
-  - [Scaffold](tools/scaffold.md)
-  - [Semver](tools/semver.md)
-  - [Git Open](tools/go.md)
-  - [Watch](tools/watch.md)
+- [Installation](#installation)
+- [Usage Overview](#usage-overview)
+- Tools
+  - [file-count](tools/file-count.md)
+  - [git](tools/git.md)
+    - [commit](tools/git/commit.md)
+    - [open](tools/git/open.md)
+    - [reset](tools/git/reset.md)
+  - [note](tools/note.md)
+  - [open](tools/open.md)
+  - [requirements](tools/requirements.md)
+  - [scaffold](tools/scaffold.md)
+  - [semver](tools/semver.md)
+  - [tree](tools/tree.md)
+  - [watch](tools/watch.md)
+
 
 ## Installation
 
