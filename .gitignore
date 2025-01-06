@@ -172,3 +172,4 @@ pt-cache/
 tmpold/*
 
 cache/config.json
+cache/notes.json
