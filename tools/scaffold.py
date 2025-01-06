@@ -1,5 +1,5 @@
 import argparse
-from tools.core import Logger, LogLevel, ToolRegistry
+from tools.core import Logger, LogLevel, ToolRegistry,Path
 
 
 def run(args):
@@ -15,11 +15,11 @@ def run(args):
 
     match parsed_args.section:
         case "base":
-            scaffold_path = f"tools/{parsed_args.name}.py"
+            scaffold_path = f"{Path.TOOLS_DIR}/{parsed_args.name}.py"
         case "git":
-            scaffold_path = f"tools/git_tools/{parsed_args.name}.py"
+            scaffold_path = f"{Path.TOOLS_DIR}/git_tools/{parsed_args.name}.py"
         case _:
-            scaffold_path = f"tools/{parsed_args.name}.py"
+            scaffold_path = f"{Path.TOOLS_DIR}/{parsed_args.name}.py"
 
     scaffold_content = f"""import argparse
 from tools.core import ToolRegistry, Logger, LogLevel
