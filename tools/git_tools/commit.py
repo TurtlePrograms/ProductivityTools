@@ -28,9 +28,8 @@ def run(args):
             if not parsed_args.no_notes:
                 Logger.log("Saving commit to notes...",LogLevel.INFO)
                 date = datetime.datetime.now().strftime("%Y-%m-%d")
-                commit = f"Commit: {date}\\n{parsed_args.message}"
                 repository = GitClient.GetRepositoryName()
-                subprocess.run(["pt.bat", "note", f"{date}", f"{repository} : {commit}"])
+                subprocess.run(["pt.bat", "note", f"{date}_commits", f"{repository} : {parsed_args.message}"])
 
             if parsed_args.push:
                 Logger.log("Pushing to remote repository...",LogLevel.INFO)
