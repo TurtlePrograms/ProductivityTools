@@ -15,9 +15,7 @@ def main(args=sys.argv[1:]):
 
     config = Cache.getCache("config")
     try:
-        print(parsed_args.tool)
         tool,section = ToolRegistry.getToolInfo(parsed_args.tool,"base")
-        print(tool)
         script = tool['script']
         if (section != "base"):
             script = section
