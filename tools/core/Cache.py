@@ -117,6 +117,13 @@ class ToolRegistry:
             raise e
     
     @staticmethod
+    def doesToolExist(command:str)->bool:
+        try:
+            return command in ToolRegistry.getAllCommandsAndAliases()
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def setToolValue(section:str, tool_name:str, key:str, value:str)->bool:
         try:
             tool_registry = Cache.getCache("tool_registry")
@@ -156,6 +163,17 @@ class ToolRegistry:
         try:
             info = ToolRegistry.getToolInfo(command,section)[0]
             return info["description"]
+        except Exception as e:
+            raise e
+    
+    def getAliases(tool:str,section:str)->list:
+        try:
+            tool_registry = Cache.getCache("tool_registry")
+            aliases = []
+            for alias in tool_registry['aliases']:
+                if tool_registry['aliases'][alias]['tool'] == tool and tool_registry['aliases'][alias]['section'] == section:
+                    aliases.append(alias)
+            return aliases
         except Exception as e:
             raise e
 

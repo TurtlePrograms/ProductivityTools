@@ -53,6 +53,12 @@
             "script": "git",
             "isExperimental": true,
             "documentation": "Docs\\tools\\git.md"
+        },
+        "help": {
+            "description": null,
+            "script": "help",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\help.md"
         }
     },
     "aliases": {
