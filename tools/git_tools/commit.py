@@ -30,7 +30,7 @@ def run(args):
                 date = datetime.datetime.now().strftime("%Y-%m-%d")
                 commit = f"Commit: {date}\\n{parsed_args.message}"
                 repository = GitClient.GetRepositoryName()
-                subprocess.run(["pt", "note", f"{date}", f"{repository} : {commit}"])
+                subprocess.run(["pt.bat", "note", f"{date}", f"{repository} : {commit}"])
 
             if parsed_args.push:
                 Logger.log("Pushing to remote repository...",LogLevel.INFO)
