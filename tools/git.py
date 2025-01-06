@@ -17,7 +17,7 @@ def run(args):
         return
     try:
         Logger.log(f"Running Git tool '{parsed_args.tool}'", LogLevel.INFO)
-        module = importlib.import_module(f"tools.git_tools.{tool["script"]}")
+        module = importlib.import_module(f"tools.git_tools.{tool['script']}")
         module.run(parsed_args.tool_options)
 
     except Exception as e:
