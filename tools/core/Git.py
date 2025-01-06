@@ -180,3 +180,14 @@ class GitClient:
             Logger.log(f"Error while executing git clean:",LogLevel.ERROR)
             Logger.log(e.stderr,LogLevel.ERROR)
             return e.returncode
+        
+    def GetRepositoryName()->str:
+        try:
+            result = subprocess.run(
+                ['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True, check=True
+            )
+            return result.stdout.split('/')[-1].strip()
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git rev-parse --show-toplevel:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return ""
