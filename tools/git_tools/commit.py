@@ -11,6 +11,7 @@ def run(args):
     parser.add_argument("message", help="The commit message to use for the git commit")
     parser.add_argument("-p", "--push", action="store_true", help="If set, push the changes to the remote repository after committing")
     parser.add_argument("-y", "--no-confirm", action="store_true", help="If set, skip the confirmation prompt before committing")
+    parser.add_argument("-n", "--no-notes", action="store_true", help="If set, do not save commit to notes")
 
     parsed_args = parser.parse_args(args)
     try:
@@ -24,6 +25,12 @@ def run(args):
         if confirmation:
             Logger.log(f"Committing with message: '{parsed_args.message}'",LogLevel.INFO)
             GitClient.Commit(parsed_args.message)
+            if not parsed_args.no_notes:
+                Logger.log("Saving commit to notes...",LogLevel.INFO)
+                date = datetime.datetime.now().strftime("%Y-%m-%d")
+                commit = f"Commit: {date}\\n{parsed_args.message}"
+                repository = GitClient.GetRepositoryName()
+                subprocess.run(["pt", "note", f"{date}", f"{repository} : {commit}"])
 
             if parsed_args.push:
                 Logger.log("Pushing to remote repository...",LogLevel.INFO)
