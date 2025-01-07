@@ -150,7 +150,7 @@ class ToolRegistry:
     def registerTool(name:str, description:str,section:str, aliases:list=[])->bool:
         try:
             tool_registry = Cache.getCache("tool_registry")
-            if ToolRegistry.doesToolExist(name,section):
+            if ToolRegistry.doesToolExist(name):
                 return False
             tool_registry[section][name] = {
                 "description": description,
@@ -158,7 +158,7 @@ class ToolRegistry:
                 "isExperimental": True,
             }
             for alias in aliases:
-                if not ToolRegistry.doesToolExist(alias,section):
+                if not ToolRegistry.doesToolExist(alias):
                     tool_registry['aliases'][alias] = {
                         "tool": name,
                         "section": section

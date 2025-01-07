@@ -5,4 +5,4 @@ the file `pt-config.json` is used to configure Productivity Tools.
 ## settings
 `showExperimentalWarning` - boolean - Show a warning when using experimental tools. Default: `true`.  
  tools marked as experimental are still in development and may not work as expected. 
- use `pt config --experimental false` to disable this warning.
+ use `pt config --show-experimental-warning false` to disable this warning.

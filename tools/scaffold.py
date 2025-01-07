@@ -39,7 +39,7 @@ if __name__ == "__main__":
         Logger.log("Cannot run this tool directly", LogLevel.CRITICAL)
 """
 
-    if ToolRegistry.doesToolExist(parsed_args.name, parsed_args.section):
+    if ToolRegistry.doesToolExist(parsed_args.name):
         Logger.log(f"Tool or alias with name '{parsed_args.name}' already exists", LogLevel.ERROR)
         return
     

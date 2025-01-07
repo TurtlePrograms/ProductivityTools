@@ -59,6 +59,12 @@
             "script": "help",
             "isExperimental": true,
             "documentation": "Docs\\tools\\help.md"
+        },
+        "config": {
+            "description": "configure productivity tools",
+            "script": "config",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\config.md"
         }
     },
     "aliases": {
