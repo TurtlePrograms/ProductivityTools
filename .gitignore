@@ -171,5 +171,4 @@ pt-cache/
 */requirements.txt
 tmpold/*
 
-cache/config.json
-cache/notes.json
+cache/**

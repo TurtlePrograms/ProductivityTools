@@ -6,18 +6,32 @@ from typing import Tuple
 class Cache:
 
     AVAILABLE_CACHES = {
+        "notes": "notes.json",
+    }
+    AVAILABLE_CONFIG = {
         "tool_registry": "tool_registry.json",
         "config": "config.json",
         "IgnoreFolders": "IgnoreFolders.json",	
-        "notes": "notes.json",
     }
+
+    def getFilePath(cache_name:str)->str:
+        try:
+            file = Cache.AVAILABLE_CACHES[cache_name]
+            return os.path.join(Path.CACHE_DIR, file)
+        except KeyError:
+            try:
+                file = Cache.AVAILABLE_CONFIG[cache_name]
+                return os.path.join(Path.CONFIG_DIR, file)
+            except KeyError:
+                raise ValueError(f"Cache '{cache_name}' not found")
+            
 
     def getCache(cache_name:str)->dict:
         try:
             if not os.path.exists(Path.CACHE_DIR):
                 os.makedirs(Path.CACHE_DIR)
         
-            path = os.path.join(Path.CACHE_DIR, Cache.AVAILABLE_CACHES[cache_name])
+            path = Cache.getFilePath(cache_name)
             with open(path, "r") as file:
                 return json.load(file)
         except FileNotFoundError:
@@ -36,7 +50,7 @@ class Cache:
             if not os.path.exists(Path.CACHE_DIR):
                 os.makedirs(Path.CACHE_DIR)
         
-            path = os.path.join(Path.CACHE_DIR, Cache.AVAILABLE_CACHES[cache_name])
+            path = Cache.getFilePath(cache_name)
             with open(path, "w") as file:
                 json.dump(cache, file, indent=4)
             return True
