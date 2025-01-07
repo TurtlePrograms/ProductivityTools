@@ -6,8 +6,8 @@ from tools.core import Logger, LogLevel, ToolRegistry,Cache
 
 def main(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(
-        description="Run a tool or list available tools"   
-     )
+        description="Run a tool or list available tools. Note: Running 'pt help' starts the help tool."
+    )
     parser.add_argument("tool", help="The tool to run")
     parser.add_argument("tool_options", nargs=argparse.REMAINDER, help="Options for the tool")
 
