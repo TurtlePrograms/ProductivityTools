@@ -4,8 +4,12 @@
 
 - [Installation](#installation)
 - [Usage Overview](#usage-overview)
+- Config
+  - [pt config](config/pt-config.md)
+  - [Ignore Folders](config/ignore-folders.md)
+  - [Tool Registry](config/tool-registry.md)
 - Tools
-  - [file-count](tools/file-count.md)
+  - [file count](tools/file-count.md)
   - [git](tools/git.md)
     - [commit](tools/git/commit.md)
     - [open](tools/git/open.md)
