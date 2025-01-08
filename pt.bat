@@ -4,4 +4,5 @@
 @REM Check if the virtual environment is installed and fix it if it's not
 if %errorlevel% neq 0 (
 	call "%~dp0install/installer.bat"
+	echo Please run the command again.
 )

@@ -191,3 +191,15 @@ class GitClient:
             Logger.log(f"Error while executing git rev-parse --show-toplevel:",LogLevel.ERROR)
             Logger.log(e.stderr,LogLevel.ERROR)
             return ""
+    
+    def pull()->int:
+        try:
+            result = subprocess.run(
+                ["git","pull"], capture_output=True, text=True, check=True
+            )
+            Logger.log(result.stdout,LogLevel.NONE)
+            return result.returncode
+        except subprocess.CalledProcessError as e:
+            Logger.log(f"Error while executing git pull:",LogLevel.ERROR)
+            Logger.log(e.stderr,LogLevel.ERROR)
+            return e.returncode

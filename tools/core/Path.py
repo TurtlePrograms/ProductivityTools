@@ -6,6 +6,7 @@ class Path:
     ROOT_DIR = os.path.dirname(TOOLS_DIR)
     CACHE_DIR = os.path.join(ROOT_DIR, "cache")
     CONFIG_DIR = os.path.join(ROOT_DIR, "config")
+    VENV_DIR = os.path.join(ROOT_DIR, "venv")
 
     def get_dir():
         return os.getcwd()

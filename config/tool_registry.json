@@ -65,6 +65,12 @@
             "script": "config",
             "isExperimental": true,
             "documentation": "Docs\\tools\\config.md"
+        },
+        "update": {
+            "description": "updates Productiviy Tools",
+            "script": "update",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\update.md"
         }
     },
     "aliases": {
