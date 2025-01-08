@@ -6,6 +6,11 @@ updates Productiviy Tools
 
 ## Usage
 ```
-Usage: pt update [arguments]
+Usage: pt update [-h]
+
+updates Productiviy Tools
+
+options:
+  -h, --help  show this help message and exit
 ```
 
