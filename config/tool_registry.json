@@ -45,19 +45,19 @@
         "note": {
             "description": "keep notes",
             "script": "note",
-            "isExperimental": true,
+            "isExperimental": false,
             "documentation": "Docs\\tools\\note.md"
         },
         "git": {
             "description": "git section manager",
             "script": "git",
-            "isExperimental": true,
+            "isExperimental": false,
             "documentation": "Docs\\tools\\git.md"
         },
         "help": {
             "description": null,
             "script": "help",
-            "isExperimental": true,
+            "isExperimental": false,
             "documentation": "Docs\\tools\\help.md"
         },
         "config": {
@@ -69,7 +69,7 @@
         "update": {
             "description": "updates Productiviy Tools",
             "script": "update",
-            "isExperimental": true,
+            "isExperimental": false,
             "documentation": "Docs\\tools\\update.md"
         }
     },

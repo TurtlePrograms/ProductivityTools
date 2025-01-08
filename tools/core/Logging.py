@@ -1,6 +1,6 @@
 from enum import Enum
 from colorama import Fore, Style, init
-
+from tools.core.Cache import Cache
 
 class LogLevel(Enum):
     DEBUG = 1
@@ -10,9 +10,15 @@ class LogLevel(Enum):
     CRITICAL = 5
     NONE = 0  # Special level for messages not tied to verbosity
 
+    def from_value(value: int):
+        for level in LogLevel:
+            if level.value == value:
+                return level
+        return LogLevel.NONE
+
 class Logger:
     init(autoreset=True)
-    verbosity_level = LogLevel.DEBUG
+    verbosity_level = LogLevel.from_value(Cache.getCache("config")["LogLevel"])
 
     @staticmethod
     def set_verbosity(level: LogLevel):
