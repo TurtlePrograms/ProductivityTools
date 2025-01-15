@@ -71,6 +71,12 @@
             "script": "update",
             "isExperimental": false,
             "documentation": "Docs\\tools\\update.md"
+        },
+        "mass-download": {
+            "description": "a tool for mass-downloading files from a URL list",
+            "script": "mass-download",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\mass-download.md"
         }
     },
     "aliases": {
