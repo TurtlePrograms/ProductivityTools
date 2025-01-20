@@ -77,6 +77,12 @@
             "script": "mass-download",
             "isExperimental": true,
             "documentation": "Docs\\tools\\mass-download.md"
+        },
+        "run": {
+            "description": "preset run script to run repetative tasks",
+            "script": "run",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\run.md"
         }
     },
     "aliases": {

@@ -7,6 +7,7 @@ class Cache:
 
     AVAILABLE_CACHES = {
         "notes": "notes.json",
+        "tasks": "run.txt",
     }
     AVAILABLE_CONFIG = {
         "tool_registry": "tool_registry.json",
@@ -33,7 +34,10 @@ class Cache:
         
             path = Cache.getFilePath(cache_name)
             with open(path, "r") as file:
-                return json.load(file)
+                if path.endswith(".json"):
+                    return json.load(file)
+                else:
+                    return file.read()
         except FileNotFoundError:
             return {}
         except KeyError:
@@ -52,7 +56,10 @@ class Cache:
         
             path = Cache.getFilePath(cache_name)
             with open(path, "w") as file:
-                json.dump(cache, file, indent=4)
+                if path.endswith(".json"):
+                    json.dump(cache, file, indent=4)
+                else:
+                    file.write(cache)
             return True
         except FileNotFoundError:
             return False
