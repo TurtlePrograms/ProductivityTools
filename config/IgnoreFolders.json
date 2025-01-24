@@ -10,6 +10,8 @@
         "temp",
         "__pycache__",
         ".vscode",
-        ".git"
+        ".git",
+        "bin",
+        "obj"
     ]
 }

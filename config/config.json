@@ -1,1 +1,4 @@
-{"showExperimentalWarning": true, "LogLevel": 1}
+{
+    "showExperimentalWarning": true,
+    "LogLevel": 0
+}
