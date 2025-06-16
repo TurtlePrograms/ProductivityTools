@@ -109,6 +109,12 @@
             "script": "commit",
             "isExperimental": false,
             "documentation": "Docs\\tools\\git\\commit.md"
+        },
+        "clean": {
+            "description": "clean merged remote branches",
+            "script": "clean",
+            "isExperimental": true,
+            "documentation": "Docs\\tools\\git\\clean.md"
         }
     }
 }
