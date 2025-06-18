@@ -67,7 +67,6 @@ def run(args):
         Logger.log(f"Error while executing git clean: {e}", LogLevel.ERROR)
         return
 
-    Logger.log("Not implemented yet",LogLevel.CRITICAL)
     return
 
 if __name__ == "__main__":
