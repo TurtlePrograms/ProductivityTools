@@ -12,6 +12,7 @@
         ".vscode",
         ".git",
         "bin",
-        "obj"
+        "obj",
+        ".idea"
     ]
 }
